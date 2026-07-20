@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jenifer Reyes — Desarrolladora Full Stack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #0e0e1a;
+      --bg2:    #13132b;
+      --bg3:    #1a1a38;
+      --blue:   #3b3ef7;
+      --blue2:  #1a1f8a;
+      --blue3:  #0d1035;
+      --accent: #6366ff;
+      --light:  #a5a8ff;
+      --white:  #f0f0ff;
+      --gray:   #6666aa;
+      --border: rgba(99,102,255,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CURSOR */
+    .cursor { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: screen; }
+    .cursor-ring { width: 32px; height: 32px; border: 1.5px solid var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: all 0.1s ease; mix-blend-mode: screen; }
+
+    /* LANG TOGGLE */
+    .lang-toggle {
+      position: fixed; bottom: 24px; right: 24px; z-index: 200;
+      display: flex; gap: 4px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 4px;
+    }
+
+    .lang-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 8px 14px;
+      border-radius: 100px;
+      border: none; cursor: pointer;
+      background: transparent;
+      color: var(--gray);
+      transition: all 0.2s;
+    }
+
+    .lang-btn.active { background: var(--blue); color: var(--white); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 48px;
+      background: rgba(14,14,26,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem; letter-spacing: 0.08em;
+      color: var(--white); text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+
+    .nav-links a {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gray); text-decoration: none; transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-cta {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--white); background: var(--blue);
+      padding: 10px 20px; border-radius: 4px; text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover { background: var(--accent); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+    .hamburger span { width: 22px; height: 1px; background: var(--white); display: block; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      padding: 120px 48px 80px;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(99,102,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,102,255,0.04) 1px, transparent 1px);
+      background-size: 56px 56px;
+      pointer-events: none;
+    }
+
+    .hero-glow {
+      position: absolute; width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,62,247,0.15) 0%, transparent 70%);
+      top: -150px; right: -150px; pointer-events: none;
+    }
+
+    .hero-glow2 {
+      position: absolute; width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,255,0.08) 0%, transparent 70%);
+      bottom: 0; left: 5%; pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); }
+
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 14vw, 11rem);
+      line-height: 0.9; letter-spacing: 0.02em;
+      color: var(--white); position: relative; z-index: 2; margin-bottom: 8px;
+    }
+
+    .hero-name .outline {
+      -webkit-text-stroke: 2px var(--accent);
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(0.8rem, 1.4vw, 1rem);
+      color: var(--gray); letter-spacing: 0.06em;
+      margin-bottom: 40px; position: relative; z-index: 2;
+    }
+
+    .hero-sub span { color: var(--light); }
+
+    .hero-bottom {
+      display: flex; align-items: center; gap: 40px; flex-wrap: wrap;
+      position: relative; z-index: 2;
+    }
+
+    .hero-btns { display: flex; gap: 14px; }
+
+    .btn-blue {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue); color: var(--white);
+      padding: 13px 26px; border-radius: 4px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; transition: all 0.2s;
+    }
+
+    .btn-blue:hover { background: var(--accent); box-shadow: 0 0 28px rgba(99,102,255,0.4); }
+
+    .btn-outline-blue {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid var(--accent); color: var(--accent);
+      padding: 12px 26px; border-radius: 4px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; transition: all 0.2s;
+    }
+
+    .btn-outline-blue:hover { background: var(--accent); color: var(--white); box-shadow: 0 0 28px rgba(99,102,255,0.35); }
+
+    .hero-stats { display: flex; gap: 32px; padding-left: 40px; border-left: 1px solid var(--border); }
+
+    .h-stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem; color: var(--accent); line-height: 1; letter-spacing: 0.05em;
+    }
+
+    .h-stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem; color: var(--gray); letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    /* MARQUEE */
+    .marquee-wrap { background: var(--blue); padding: 11px 0; overflow: hidden; white-space: nowrap; }
+    .marquee-track { display: inline-block; animation: marquee 20s linear infinite; }
+    .marquee-track span { font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem; letter-spacing: 0.15em; color: rgba(240,240,255,0.9); padding: 0 28px; }
+    .marquee-track span.dot { color: var(--light); }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* SECTIONS */
+    section { padding: 96px 48px; }
+
+    .sec-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+
+    .sec-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+      letter-spacing: 0.04em; line-height: 1;
+      color: var(--white); margin-bottom: 52px;
+    }
+
+    .sec-title span { color: var(--accent); }
+
+    /* ABOUT */
+    #about { background: var(--bg2); }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+
+    .about-text p { font-size: 0.97rem; font-weight: 300; line-height: 1.9; color: #9999cc; margin-bottom: 18px; }
+    .about-text p strong { color: var(--light); font-weight: 600; }
+
+    .about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+
+    .about-tag {
+      font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em;
+      padding: 7px 14px; border: 1px solid var(--border); border-radius: 100px;
+      color: var(--gray); transition: all 0.2s;
+    }
+
+    .about-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    .info-list { display: flex; flex-direction: column; }
+
+    .info-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+    }
+
+    .info-row:first-child { border-top: 1px solid var(--border); }
+
+    .info-key {
+      font-family: 'Space Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray);
+    }
+
+    .info-val { font-size: 0.88rem; font-weight: 500; color: var(--white); }
+    .info-val.accent { color: var(--accent); }
+    .info-val.light { color: var(--light); }
+
+    /* SKILLS */
+    #skills { background: var(--bg); }
+
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .skill-block { background: var(--bg); padding: 28px 24px; transition: background 0.2s; }
+    .skill-block:hover { background: var(--bg2); }
+
+    .skill-block-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem;
+      color: rgba(99,102,255,0.1); line-height: 1; margin-bottom: 6px; letter-spacing: 0.05em;
+    }
+
+    .skill-block h3 {
+      font-size: 0.82rem; font-weight: 700; color: var(--white);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px;
+    }
+
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    .pill {
+      font-family: 'Space Mono', monospace; font-size: 0.62rem;
+      padding: 3px 9px; border-radius: 2px;
+      background: rgba(59,62,247,0.08); border: 1px solid rgba(99,102,255,0.18);
+      color: #8888bb; letter-spacing: 0.04em;
+    }
+
+    /* EDUCATION */
+    #education { background: var(--bg2); }
+
+    .edu-grid { display: flex; flex-direction: column; gap: 0; }
+
+    .edu-item {
+      display: grid; grid-template-columns: 160px 1fr;
+      gap: 32px; padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+
+    .edu-item:first-child { border-top: 1px solid var(--border); }
+
+    .edu-year {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; color: var(--accent); letter-spacing: 0.06em; line-height: 1;
+    }
+
+    .edu-type {
+      font-family: 'Space Mono', monospace; font-size: 0.62rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gray); margin-top: 4px;
+    }
+
+    .edu-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem; letter-spacing: 0.04em;
+      color: var(--white); margin-bottom: 4px;
+    }
+
+    .edu-place { font-size: 0.88rem; color: var(--light); margin-bottom: 8px; }
+    .edu-desc { font-size: 0.85rem; font-weight: 300; color: var(--gray); line-height: 1.6; }
+
+    /* PROJECTS */
+    #projects { background: var(--bg); }
+
+    .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 28px; }
+
+    .proj-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+      overflow: hidden; transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .proj-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+
+    .proj-header {
+      padding: 36px; min-height: 160px;
+      display: flex; align-items: flex-end;
+      background: var(--bg3); position: relative; overflow: hidden;
+    }
+
+    .proj-num-bg {
+      position: absolute; right: -10px; bottom: -20px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 9rem;
+      color: rgba(99,102,255,0.05); line-height: 1; pointer-events: none;
+    }
+
+    .proj-emoji { font-size: 2.8rem; position: relative; z-index: 2; }
+
+    .proj-body { padding: 24px; }
+
+    .proj-type {
+      font-family: 'Space Mono', monospace; font-size: 0.62rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 6px;
+    }
+
+    .proj-name {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem;
+      letter-spacing: 0.04em; color: var(--white); margin-bottom: 8px;
+    }
+
+    .proj-desc { font-size: 0.85rem; font-weight: 300; color: #7777aa; line-height: 1.7; margin-bottom: 16px; }
+
+    .proj-stack { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 18px; }
+
+    .proj-tag {
+      font-family: 'Space Mono', monospace; font-size: 0.6rem;
+      padding: 2px 7px; background: rgba(59,62,247,0.06);
+      border: 1px solid var(--border); color: #6666aa; border-radius: 2px;
+    }
+
+    .proj-link {
+      font-family: 'Space Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.08em; color: var(--accent); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s;
+    }
+
+    .proj-link:hover { gap: 12px; }
+
+    /* CONTACT */
+    #contact { background: var(--bg2); }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; }
+
+    .contact-big {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+      letter-spacing: 0.04em; line-height: 1.05;
+      color: var(--white); margin-bottom: 20px;
+    }
+
+    .contact-big span { color: var(--accent); }
+
+    .contact-desc { font-size: 0.95rem; font-weight: 300; color: #7777aa; line-height: 1.8; margin-bottom: 32px; }
+
+    .contact-links { display: flex; flex-direction: column; gap: 12px; }
+
+    .contact-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 18px; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; text-decoration: none; transition: border-color 0.2s;
+    }
+
+    .contact-row:hover { border-color: var(--accent); }
+
+    .contact-icon {
+      width: 34px; height: 34px; background: rgba(99,102,255,0.1);
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0;
+    }
+
+    .contact-txt { font-size: 0.85rem; color: #9999bb; }
+
+    /* CONTACT RIGHT — whatsapp buttons */
+    .contact-right { display: flex; flex-direction: column; gap: 20px; justify-content: center; }
+
+    .wa-block { display: flex; flex-direction: column; gap: 10px; }
+
+    .wa-label {
+      font-family: 'Space Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray);
+    }
+
+    .wa-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 16px 22px; border-radius: 8px;
+      background: rgba(37,211,102,0.07); border: 1px solid rgba(37,211,102,0.2);
+      text-decoration: none; transition: all 0.2s;
+    }
+
+    .wa-btn:hover { background: rgba(37,211,102,0.14); border-color: rgba(37,211,102,0.4); transform: translateX(4px); }
+
+    .wa-btn svg { flex-shrink: 0; }
+
+    .wa-btn-text { display: flex; flex-direction: column; }
+    .wa-btn-title { font-size: 0.88rem; font-weight: 600; color: #4ddb7a; }
+    .wa-btn-num { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: #3ab860; margin-top: 2px; }
+
+    .contact-divider {
+      font-family: 'Space Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gray); text-align: center; padding: 8px 0;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--bg3); border-top: 1px solid var(--border);
+      padding: 22px 48px; display: flex; justify-content: space-between; align-items: center;
+    }
+
+    footer p { font-family: 'Space Mono', monospace; font-size: 0.62rem; color: #444466; letter-spacing: 0.06em; }
+
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-family: 'Space Mono', monospace; font-size: 0.62rem; color: #555577; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* FADE */
+    .fade-up { opacity: 0; transform: translateY(22px); transition: opacity 0.6s, transform 0.6s; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg); padding: 16px 20px; border-bottom: 1px solid var(--border); gap: 16px; }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+      .nav-cta { display: none; }
+      .about-grid, .project-grid, .contact-grid { grid-template-columns: 1fr !important; gap: 36px; }
+      #hero { padding: 100px 20px 56px; }
+      section { padding: 60px 20px; }
+      .hero-stats { display: none; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .edu-item { grid-template-columns: 1fr; gap: 8px; }
+      footer { flex-direction: column; gap: 10px; padding: 18px 20px; text-align: center; }
+      body { cursor: auto; }
+      .cursor, .cursor-ring { display: none; }
+      .lang-toggle { bottom: 16px; right: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- LANG TOGGLE -->
+  <div class="lang-toggle">
+    <button class="lang-btn" id="btnEs" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" id="btnEn" onclick="setLang('en')">EN</button>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about"><span class="t" data-es="Sobre mí" data-en="About"></span></a></li>
+      <li><a href="#skills"><span class="t" data-es="Habilidades" data-en="Skills"></span></a></li>
+      <li><a href="#education"><span class="t" data-es="Educación" data-en="Education"></span></a></li>
+      <li><a href="#projects"><span class="t" data-es="Proyectos" data-en="Projects"></span></a></li>
+      <li><a href="#contact"><span class="t" data-es="Contacto" data-en="Contact"></span></a></li>
+    </ul>
+    <a href="#contact" class="nav-cta"><span class="t" data-es="Contrátame" data-en="Hire me"></span></a>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+    <div class="hero-eyebrow">
+      <span class="t" data-es="Desarrolladora Full Stack — República Dominicana" data-en="Full Stack Developer — Dominican Republic"></span>
+    </div>
+    <h1 class="hero-name">JENIFER<br><span class="outline">REYES</span></h1>
+    <p class="hero-sub">
+      <span class="t" data-es="Construyendo cosas que <span style='color: var(--white); font-weight: 500;'>realmente funcionan</span> — del código al servidor" data-en="Building things that <span style='color: var(--white); font-weight: 500;'>actually work</span> — from code to production"></span>
+    </p>
+    <div class="hero-bottom">
+      <div class="hero-btns">
+        <a href="#projects" class="btn-blue"><span class="t" data-es="Ver mi trabajo →" data-en="See my work →"></span></a>
+        <a href="#contact" class="btn-outline-blue"><span class="t" data-es="Hablemos" data-en="Let's talk"></span></a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="h-stat-num">2+</div><div class="h-stat-label"><span class="t" data-es="Años" data-en="Years"></span></div></div>
+        <div><div class="h-stat-num">3</div><div class="h-stat-label"><span class="t" data-es="Proyectos" data-en="Projects"></span></div></div>
+        <div><div class="h-stat-num">∞</div><div class="h-stat-label"><span class="t" data-es="Café" data-en="Coffee"></span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span>REACT.JS</span><span class="dot">✦</span>
+      <span>NODE.JS</span><span class="dot">✦</span>
+      <span>POSTGRESQL</span><span class="dot">✦</span>
+      <span>FULL STACK</span><span class="dot">✦</span>
+      <span>NGINX</span><span class="dot">✦</span>
+      <span>VERCEL</span><span class="dot">✦</span>
+      <span>REMOTE</span><span class="dot">✦</span>
+      <span>SYSTEMS ENGINEER</span><span class="dot">✦</span>
+      <span>REACT.JS</span><span class="dot">✦</span>
+      <span>NODE.JS</span><span class="dot">✦</span>
+      <span>POSTGRESQL</span><span class="dot">✦</span>
+      <span>FULL STACK</span><span class="dot">✦</span>
+      <span>NGINX</span><span class="dot">✦</span>
+      <span>VERCEL</span><span class="dot">✦</span>
+      <span>REMOTE</span><span class="dot">✦</span>
+      <span>SYSTEMS ENGINEER</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="sec-label">// 01</div>
+    <h2 class="sec-title"><span class="t" data-es="QUIÉN <span>SOY</span>" data-en="WHO I <span>AM</span>"></span></h2>
+    <div class="about-grid fade-up">
+      <div class="about-text">
+        <p class="t"
+          data-es="Soy <strong>Ingeniera de Sistemas</strong> y desarrolladora full stack de Santiago de los Caballeros, República Dominicana. 24 años, intensa, y construyo cosas que salen a producción — no solo se ven bien en Figma."
+          data-en="I'm a <strong>Systems Engineer</strong> and full-stack developer from Santiago de los Caballeros, Dominican Republic. 24 years old, intense, and I build things that go live — not just look good in Figma."></p>
+        <p class="t"
+          data-es="Lancé una plataforma de e-commerce completa para una tienda de suplementos deportivos con pagos reales, emails automáticos y configuración de servidor en producción. Soy dueña de los proyectos desde la primera línea de código hasta el día del deploy."
+          data-en="I shipped a complete e-commerce platform for a supplements retailer with real payments, automated emails, and production server setup. I own projects from first line of code to deployment day."></p>
+        <p class="t"
+          data-es="Depuro a las 2am, leo la documentación y no paro hasta que funciona."
+          data-en="I debug at 2am, I read docs, and I don't stop until it works."></p>
+        <div class="about-tags">
+          <span class="about-tag t" data-es="fitness" data-en="fitness"></span>
+          <span class="about-tag t" data-es="autos" data-en="cars"></span>
+          <span class="about-tag t" data-es="resolvedora de problemas" data-en="problem solver"></span>
+          <span class="about-tag t" data-es="autodidacta" data-en="self-taught"></span>
+          <span class="about-tag t" data-es="trabajo remoto" data-en="remote work"></span>
+          <span class="about-tag t" data-es="aprendizaje rápido" data-en="fast learner"></span>
+        </div>
+      </div>
+      <div class="info-list">
+        <div class="info-row"><span class="info-key t" data-es="Nombre" data-en="Name"></span><span class="info-val">Jenifer Reyes Pérez</span></div>
+        <div class="info-row"><span class="info-key t" data-es="Edad" data-en="Age"></span><span class="info-val accent">24</span></div>
+        <div class="info-row"><span class="info-key t" data-es="Ubicación" data-en="Location"></span><span class="info-val">Santiago, Rep. Dom.</span></div>
+        <div class="info-row"><span class="info-key t" data-es="Título" data-en="Degree"></span><span class="info-val t" data-es="Ing. Sistemas — O&M" data-en="B.S. Systems Eng. — O&M"></span></div>
+        <div class="info-row"><span class="info-key t" data-es="Estado" data-en="Status"></span><span class="info-val light t" data-es="Disponible ahora" data-en="Available now"></span></div>
+        <div class="info-row"><span class="info-key t" data-es="Modalidad" data-en="Work type"></span><span class="info-val accent">Remote ✓</span></div>
+        <div class="info-row"><span class="info-key t" data-es="Visa" data-en="Visa"></span><span class="info-val t" data-es="No requiere patrocinio" data-en="No sponsorship needed"></span></div>
+        <div class="info-row"><span class="info-key">English</span><span class="info-val t" data-es="Nivel intermedio" data-en="Intermediate"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="sec-label">// 02</div>
+    <h2 class="sec-title"><span class="t" data-es="LO QUE <span>USO</span>" data-en="WHAT I <span>USE</span>"></span></h2>
+    <div class="skills-grid fade-up">
+      <div class="skill-block">
+        <div class="skill-block-num">01</div>
+        <h3>Frontend</h3>
+        <div class="skill-pills">
+          <span class="pill">React.js</span><span class="pill">JavaScript</span>
+          <span class="pill">HTML5</span><span class="pill">CSS3</span>
+          <span class="pill">React Router</span><span class="pill">Responsive</span>
+          <span class="pill">Figma</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-num">02</div>
+        <h3>Backend</h3>
+        <div class="skill-pills">
+          <span class="pill">Node.js</span><span class="pill">Express.js</span>
+          <span class="pill">PostgreSQL</span><span class="pill">REST APIs</span>
+          <span class="pill">jsPDF</span><span class="pill">Resend API</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-num">03</div>
+        <h3>DevOps & Deploy</h3>
+        <div class="skill-pills">
+          <span class="pill">Ubuntu Linux</span><span class="pill">Nginx</span>
+          <span class="pill">PM2</span><span class="pill">SSL/Certbot</span>
+          <span class="pill">Vercel</span><span class="pill">Cloudflare DNS</span>
+          <span class="pill">GoDaddy DNS</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-num">04</div>
+        <h3><span class="t" data-es="Integraciones" data-en="Integrations"></span></h3>
+        <div class="skill-pills">
+          <span class="pill">PayPal Live</span><span class="pill">Resend</span>
+          <span class="pill">Cloudinary</span><span class="pill">Elfsight</span>
+          <span class="pill">Google Search Console</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-num">05</div>
+        <h3><span class="t" data-es="Herramientas" data-en="Tools"></span></h3>
+        <div class="skill-pills">
+          <span class="pill">Git</span><span class="pill">GitHub</span>
+          <span class="pill">VS Code</span><span class="pill">Postman</span>
+          <span class="pill">AWS CDK</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-num">06</div>
+        <h3><span class="t" data-es="Certificaciones" data-en="Certifications"></span></h3>
+        <div class="skill-pills">
+          <span class="pill">freeCodeCamp — JavaScript Algorithms & Data Structures</span>
+          <span class="pill">freeCodeCamp — Responsive Web Design</span>
+          <span class="pill">freeCodeCamp — Python</span>
+          <span class="pill">freeCodeCamp — Relational Database</span>
+          <span class="pill">AWS CDK — Getting Started</span>
+          <span class="pill">Cisco — Basic Network</span>
+          <span class="pill">Ciberseguridad — Talento Digital</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="sec-label">// 03</div>
+    <h2 class="sec-title"><span class="t" data-es="MI <span>FORMACIÓN</span>" data-en="MY <span>EDUCATION</span>"></span></h2>
+    <div class="edu-grid fade-up">
+      <div class="edu-item">
+        <div>
+          <div class="edu-year">2025</div>
+          <div class="edu-type t" data-es="Universidad" data-en="University"></div>
+        </div>
+        <div>
+          <div class="edu-title t" data-es="INGENIERÍA DE SISTEMAS Y COMPUTACIÓN" data-en="B.S. SYSTEMS AND COMPUTER ENGINEERING"></div>
+          <div class="edu-place">Universidad Dominicana O&M</div>
+          <div class="edu-desc t"
+            data-es="Graduada en noviembre de 2025. Formación en desarrollo de software, redes, bases de datos, arquitectura de sistemas y gestión de proyectos tecnológicos."
+            data-en="Graduated November 2025. Training in software development, networking, databases, systems architecture and technology project management."></div>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div>
+          <div class="edu-year">2020</div>
+          <div class="edu-type t" data-es="Técnico Secundaria" data-en="Technical High School"></div>
+        </div>
+        <div>
+          <div class="edu-title t" data-es="BACHILLER TÉCNICO EN DESARROLLO Y ADMINISTRACIÓN DE APLICACIONES INFORMÁTICAS" data-en="TECHNICAL BACHELOR IN SOFTWARE DEVELOPMENT & IT ADMINISTRATION"></div>
+          <div class="edu-place">Politécnico Salesiano Arquides Calderón — Moca</div>
+          <div class="edu-desc t"
+            data-es="Formación técnica en programación, administración de sistemas informáticos y desarrollo de aplicaciones. Base sólida que complementó mi carrera universitaria."
+            data-en="Technical training in programming, computer systems administration, and application development. A solid foundation that complemented my university degree."></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="sec-label">// 04</div>
+    <h2 class="sec-title"><span class="t" data-es="LO QUE HE <span>LANZADO</span>" data-en="WHAT I'VE <span>SHIPPED</span>"></span></h2>
+    <div class="project-grid">
+      
+      <!-- PROYECTO 01 -->
+      <div class="proj-card fade-up">
+        <div class="proj-header">
+          <div class="proj-num-bg">01</div>
+          <div class="proj-emoji">🛒</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-type t" data-es="E-Commerce · En producción" data-en="E-Commerce · Live in production"></div>
+          <div class="proj-name">WOLFS FITNESS MARKET</div>
+          <p class="proj-desc t"
+            data-es="Plataforma de e-commerce completa para una tienda de suplementos deportivos — construida y desplegada de principio a fin. Pagos reales, facturación automática, panel de administración, SEO."
+            data-en="Complete e-commerce platform for a sports supplements retailer — built and deployed end to end. Real payments, automated invoicing, admin panel, SEO."></p>
+          <div class="proj-stack">
+            <span class="proj-tag">React.js</span><span class="proj-tag">Node.js</span>
+            <span class="proj-tag">PostgreSQL</span><span class="proj-tag">PayPal Live</span>
+            <span class="proj-tag">Resend</span><span class="proj-tag">Cloudinary</span>
+            <span class="proj-tag">Nginx</span><span class="proj-tag">PM2</span><span class="proj-tag">SSL</span>
+          </div>
+          <a href="https://wolffitnessmarket.com" target="_blank" class="proj-link">wolffitnessmarket.com →</a>
+        </div>
+      </div>
+
+      <!-- PROYECTO 02 -->
+      <div class="proj-card fade-up" style="transition-delay:0.15s">
+        <div class="proj-header">
+          <div class="proj-num-bg">02</div>
+          <div class="proj-emoji">🏦</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-type t" data-es="Fintech · En producción" data-en="Fintech · Live in production"></div>
+          <div class="proj-name">JM ODEPEM FINANCIERA</div>
+          <p class="proj-desc t"
+            data-es="Sitio institucional para una financiera en República Dominicana. Solicitud de préstamo en línea en múltiples pasos con generación de PDF, calculadora interactiva, catálogo de vehículos y sistema de diseño de marca."
+            data-en="Institutional website for a financial services company in the DR. Multi-step online loan application with PDF generation, interactive calculator, vehicle catalog and full brand design system."></p>
+          <div class="proj-stack">
+            <span class="proj-tag">React.js</span><span class="proj-tag">Node.js</span>
+            <span class="proj-tag">Express</span><span class="proj-tag">jsPDF</span>
+            <span class="proj-tag">Resend API</span><span class="proj-tag">Nginx</span>
+            <span class="proj-tag">PM2</span><span class="proj-tag">SSL</span>
+          </div>
+          <a href="https://www.jmodepem.com" target="_blank" class="proj-link">jmodepem.com →</a>
+        </div>
+      </div>
+
+      <!-- PROYECTO 03 (ACTUALIZADO CON TU ENLACE REAL) -->
+      <div class="proj-card fade-up" style="transition-delay:0.3s">
+        <div class="proj-header">
+          <div class="proj-num-bg">03</div>
+          <div class="proj-emoji">⚡</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-type t" data-es="Fitness Brand · En producción" data-en="Fitness Brand · Live in production"></div>
+          <div class="proj-name">RANGERR AESTHETIC</div>
+          <p class="proj-desc t"
+            data-es="Sitio web de alto impacto para personal coaching con diseño oscuro estilo Raw Nutrition. Incluye fondo de video, galería de transformaciones responsiva en paralelo e integración oficial con el API/Feed de Instagram."
+            data-en="High-impact fitness coaching landing page with dark Raw Nutrition aesthetics. Features background video hero, responsive before/after comparison grid, and official Instagram feed API integration."></p>
+          <div class="proj-stack">
+            <span class="proj-tag">HTML5</span><span class="proj-tag">CSS3 / Flexbox</span>
+            <span class="proj-tag">JavaScript</span><span class="proj-tag">Vite</span>
+            <span class="proj-tag">Elfsight API</span><span class="proj-tag">Netlify</span>
+          </div>
+          <a href="https://jcrangerr.netlify.app/" target="_blank" class="proj-link">jcrangerr.netlify.app →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="sec-label">// 05</div>
+    <div class="contact-grid fade-up">
+      <div>
+        <div class="contact-big">
+          <span class="t" data-es="CONSTRUYAMOS<br>ALGO<br><span>JUNTOS.</span>" data-en="LET'S<br>BUILD<br><span>SOMETHING.</span>"></span>
+        </div>
+        <p class="contact-desc t"
+          data-es="Abierta a proyectos freelance remotos, contratos y empleos de tiempo completo. Si necesitas a alguien que sea dueña del stack completo y haga el deploy — aquí estoy."
+          data-en="Open to remote freelance projects, contracts and full-time roles. If you need someone who owns the full stack and ships — I'm your person."></p>
+        <div class="contact-links">
+          <a href="mailto:jeniferreyesperez@gmail.com" class="contact-row">
+            <div class="contact-icon">📧</div>
+            <span class="contact-txt">jeniferreyesperez@gmail.com</span>
+          </a>
+          <a href="tel:+18296474052" class="contact-row">
+            <div class="contact-icon">📱</div>
+            <span class="contact-txt">829-647-4052</span>
+          </a>
+          <a href="https://linkedin.com/in/jenifer-reyes-perez-9613a1399" target="_blank" class="contact-row">
+            <div class="contact-icon">💼</div>
+            <span class="contact-txt">linkedin.com/in/jenifer-reyes-perez-9613a1399</span>
+          </a>
+        </div>
+      </div>
+      <div class="contact-right">
+        <div class="wa-label t" data-es="Escríbeme directamente por WhatsApp" data-en="Message me directly on WhatsApp"></div>
+        <div class="wa-block">
+          <a href="https://wa.me/18296474052?text=Hola%20Jenifer%2C%20vi%20tu%20portfolio%20y%20me%20interesa%20contactarte." target="_blank" class="wa-btn">
+            <svg viewBox="0 0 24 24" fill="#4ddb7a" width="28" height="28">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            <div class="wa-btn-text">
+              <span class="wa-btn-title t" data-es="WhatsApp Personal" data-en="WhatsApp Personal"></span>
+              <span class="wa-btn-num">829-647-4052</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 JENIFER REYES PÉREZ</p>
+    <div class="footer-links">
+      <a href="https://linkedin.com/in/jenifer-reyes-perez-9613a1399" target="_blank">LinkedIn</a>
+      <a href="https://wolffitnessmarket.com" target="_blank">WFM</a>
+      <a href="https://www.jmodepem.com" target="_blank">JM ODEPEM</a>
+      <a href="https://jcrangerr.netlify.app/" target="_blank">RANGERR</a>
+      <a href="mailto:jeniferreyesperez@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx - 4 + 'px'; cursor.style.top = my - 4 + 'px';
+    });
+    function animRing() {
+      rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
+      ring.style.left = rx - 16 + 'px'; ring.style.top = ry - 16 + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    // Hamburger
+    const hb = document.getElementById('hamburger');
+    const nl = document.getElementById('navLinks');
+    hb.addEventListener('click', () => nl.classList.toggle('open'));
+    nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
+
+    // Scroll fade
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+    // Lang switch engine
+    function setLang(l) {
+      document.getElementById('btnEs').classList.toggle('active', l === 'es');
+      document.getElementById('btnEn').classList.toggle('active', l === 'en');
+      
+      document.querySelectorAll('.t').forEach(el => {
+        const val = el.getAttribute('data-' + l);
+        if (val) el.innerHTML = val;
+      });
+      localStorage.setItem('preferredLang', l);
+    }
+
+    // Persistent Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('preferredLang') || 'en';
+      setLang(savedLang);
+    });
+  </script>
+</body>
+</html>
