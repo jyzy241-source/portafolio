@@ -3,873 +3,572 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jenifer Reyes — Desarrolladora Full Stack</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:     #0e0e1a;
-      --bg2:    #13132b;
-      --bg3:    #1a1a38;
-      --blue:   #3b3ef7;
-      --blue2:  #1a1f8a;
-      --blue3:  #0d1035;
-      --accent: #6366ff;
-      --light:  #a5a8ff;
-      --white:  #f0f0ff;
-      --gray:   #6666aa;
-      --border: rgba(99,102,255,0.15);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Space Grotesk', sans-serif;
-      background: var(--bg);
-      color: var(--white);
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    /* CURSOR */
-    .cursor { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: screen; }
-    .cursor-ring { width: 32px; height: 32px; border: 1.5px solid var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: all 0.1s ease; mix-blend-mode: screen; }
-
-    /* LANG TOGGLE */
-    .lang-toggle {
-      position: fixed; bottom: 24px; right: 24px; z-index: 200;
-      display: flex; gap: 4px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 4px;
-    }
-
-    .lang-btn {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem; font-weight: 700;
-      letter-spacing: 0.1em;
-      padding: 8px 14px;
-      border-radius: 100px;
-      border: none; cursor: pointer;
-      background: transparent;
-      color: var(--gray);
-      transition: all 0.2s;
-    }
-
-    .lang-btn.active { background: var(--blue); color: var(--white); }
-
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 18px 48px;
-      background: rgba(14,14,26,0.88);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem; letter-spacing: 0.08em;
-      color: var(--white); text-decoration: none;
-    }
-
-    .nav-logo span { color: var(--accent); }
-
-    .nav-links { display: flex; gap: 32px; list-style: none; }
-
-    .nav-links a {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--gray); text-decoration: none; transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--accent); }
-
-    .nav-cta {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--white); background: var(--blue);
-      padding: 10px 20px; border-radius: 4px; text-decoration: none;
-      transition: background 0.2s;
-    }
-
-    .nav-cta:hover { background: var(--accent); }
-
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
-    .hamburger span { width: 22px; height: 1px; background: var(--white); display: block; }
-
-    /* HERO */
-    #hero {
-      min-height: 100vh;
-      padding: 120px 48px 80px;
-      display: flex; flex-direction: column; justify-content: center;
-      position: relative; overflow: hidden;
-    }
-
-    .hero-grid-bg {
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(99,102,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(99,102,255,0.04) 1px, transparent 1px);
-      background-size: 56px 56px;
-      pointer-events: none;
-    }
-
-    .hero-glow {
-      position: absolute; width: 700px; height: 700px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(59,62,247,0.15) 0%, transparent 70%);
-      top: -150px; right: -150px; pointer-events: none;
-    }
-
-    .hero-glow2 {
-      position: absolute; width: 400px; height: 400px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(99,102,255,0.08) 0%, transparent 70%);
-      bottom: 0; left: 5%; pointer-events: none;
-    }
-
-    .hero-eyebrow {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 20px;
-      display: flex; align-items: center; gap: 12px;
-    }
-
-    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); }
-
-    .hero-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(5rem, 14vw, 11rem);
-      line-height: 0.9; letter-spacing: 0.02em;
-      color: var(--white); position: relative; z-index: 2; margin-bottom: 8px;
-    }
-
-    .hero-name .outline {
-      -webkit-text-stroke: 2px var(--accent);
-      color: transparent;
-    }
-
-    .hero-sub {
-      font-family: 'Space Mono', monospace;
-      font-size: clamp(0.8rem, 1.4vw, 1rem);
-      color: var(--gray); letter-spacing: 0.06em;
-      margin-bottom: 40px; position: relative; z-index: 2;
-    }
-
-    .hero-sub span { color: var(--light); }
-
-    .hero-bottom {
-      display: flex; align-items: center; gap: 40px; flex-wrap: wrap;
-      position: relative; z-index: 2;
-    }
-
-    .hero-btns { display: flex; gap: 14px; }
-
-    .btn-blue {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--blue); color: var(--white);
-      padding: 13px 26px; border-radius: 4px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      text-decoration: none; transition: all 0.2s;
-    }
-
-    .btn-blue:hover { background: var(--accent); box-shadow: 0 0 28px rgba(99,102,255,0.4); }
-
-    .btn-outline-blue {
-      display: inline-flex; align-items: center; gap: 8px;
-      border: 1.5px solid var(--accent); color: var(--accent);
-      padding: 12px 26px; border-radius: 4px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      text-decoration: none; transition: all 0.2s;
-    }
-
-    .btn-outline-blue:hover { background: var(--accent); color: var(--white); box-shadow: 0 0 28px rgba(99,102,255,0.35); }
-
-    .hero-stats { display: flex; gap: 32px; padding-left: 40px; border-left: 1px solid var(--border); }
-
-    .h-stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.2rem; color: var(--accent); line-height: 1; letter-spacing: 0.05em;
-    }
-
-    .h-stat-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.58rem; color: var(--gray); letter-spacing: 0.1em; text-transform: uppercase;
-    }
-
-    /* MARQUEE */
-    .marquee-wrap { background: var(--blue); padding: 11px 0; overflow: hidden; white-space: nowrap; }
-    .marquee-track { display: inline-block; animation: marquee 20s linear infinite; }
-    .marquee-track span { font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem; letter-spacing: 0.15em; color: rgba(240,240,255,0.9); padding: 0 28px; }
-    .marquee-track span.dot { color: var(--light); }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-    /* SECTIONS */
-    section { padding: 96px 48px; }
-
-    .sec-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 10px;
-    }
-
-    .sec-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.4rem, 5.5vw, 4.5rem);
-      letter-spacing: 0.04em; line-height: 1;
-      color: var(--white); margin-bottom: 52px;
-    }
-
-    .sec-title span { color: var(--accent); }
-
-    /* ABOUT */
-    #about { background: var(--bg2); }
-
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
-
-    .about-text p { font-size: 0.97rem; font-weight: 300; line-height: 1.9; color: #9999cc; margin-bottom: 18px; }
-    .about-text p strong { color: var(--light); font-weight: 600; }
-
-    .about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-
-    .about-tag {
-      font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em;
-      padding: 7px 14px; border: 1px solid var(--border); border-radius: 100px;
-      color: var(--gray); transition: all 0.2s;
-    }
-
-    .about-tag:hover { border-color: var(--accent); color: var(--accent); }
-
-    .info-list { display: flex; flex-direction: column; }
-
-    .info-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 14px 0; border-bottom: 1px solid var(--border);
-    }
-
-    .info-row:first-child { border-top: 1px solid var(--border); }
-
-    .info-key {
-      font-family: 'Space Mono', monospace; font-size: 0.65rem;
-      letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray);
-    }
-
-    .info-val { font-size: 0.88rem; font-weight: 500; color: var(--white); }
-    .info-val.accent { color: var(--accent); }
-    .info-val.light { color: var(--light); }
-
-    /* SKILLS */
-    #skills { background: var(--bg); }
-
-    .skills-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 2px; background: var(--border);
-      border: 1px solid var(--border);
-    }
-
-    .skill-block { background: var(--bg); padding: 28px 24px; transition: background 0.2s; }
-    .skill-block:hover { background: var(--bg2); }
-
-    .skill-block-num {
-      font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem;
-      color: rgba(99,102,255,0.1); line-height: 1; margin-bottom: 6px; letter-spacing: 0.05em;
-    }
-
-    .skill-block h3 {
-      font-size: 0.82rem; font-weight: 700; color: var(--white);
-      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px;
-    }
-
-    .skill-pills { display: flex; flex-wrap: wrap; gap: 5px; }
-
-    .pill {
-      font-family: 'Space Mono', monospace; font-size: 0.62rem;
-      padding: 3px 9px; border-radius: 2px;
-      background: rgba(59,62,247,0.08); border: 1px solid rgba(99,102,255,0.18);
-      color: #8888bb; letter-spacing: 0.04em;
-    }
-
-    /* EDUCATION */
-    #education { background: var(--bg2); }
-
-    .edu-grid { display: flex; flex-direction: column; gap: 0; }
-
-    .edu-item {
-      display: grid; grid-template-columns: 160px 1fr;
-      gap: 32px; padding: 32px 0;
-      border-bottom: 1px solid var(--border);
-      align-items: start;
-    }
-
-    .edu-item:first-child { border-top: 1px solid var(--border); }
-
-    .edu-year {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem; color: var(--accent); letter-spacing: 0.06em; line-height: 1;
-    }
-
-    .edu-type {
-      font-family: 'Space Mono', monospace; font-size: 0.62rem;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--gray); margin-top: 4px;
-    }
-
-    .edu-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem; letter-spacing: 0.04em;
-      color: var(--white); margin-bottom: 4px;
-    }
-
-    .edu-place { font-size: 0.88rem; color: var(--light); margin-bottom: 8px; }
-    .edu-desc { font-size: 0.85rem; font-weight: 300; color: var(--gray); line-height: 1.6; }
-
-    /* PROJECTS */
-    #projects { background: var(--bg); }
-
-    .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 28px; }
-
-    .proj-card {
-      background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
-      overflow: hidden; transition: border-color 0.25s, transform 0.25s;
-    }
-
-    .proj-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-
-    .proj-header {
-      padding: 36px; min-height: 160px;
-      display: flex; align-items: flex-end;
-      background: var(--bg3); position: relative; overflow: hidden;
-    }
-
-    .proj-num-bg {
-      position: absolute; right: -10px; bottom: -20px;
-      font-family: 'Bebas Neue', sans-serif; font-size: 9rem;
-      color: rgba(99,102,255,0.05); line-height: 1; pointer-events: none;
-    }
-
-    .proj-emoji { font-size: 2.8rem; position: relative; z-index: 2; }
-
-    .proj-body { padding: 24px; }
-
-    .proj-type {
-      font-family: 'Space Mono', monospace; font-size: 0.62rem;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 6px;
-    }
-
-    .proj-name {
-      font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem;
-      letter-spacing: 0.04em; color: var(--white); margin-bottom: 8px;
-    }
-
-    .proj-desc { font-size: 0.85rem; font-weight: 300; color: #7777aa; line-height: 1.7; margin-bottom: 16px; }
-
-    .proj-stack { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 18px; }
-
-    .proj-tag {
-      font-family: 'Space Mono', monospace; font-size: 0.6rem;
-      padding: 2px 7px; background: rgba(59,62,247,0.06);
-      border: 1px solid var(--border); color: #6666aa; border-radius: 2px;
-    }
-
-    .proj-link {
-      font-family: 'Space Mono', monospace; font-size: 0.68rem;
-      letter-spacing: 0.08em; color: var(--accent); text-decoration: none;
-      display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s;
-    }
-
-    .proj-link:hover { gap: 12px; }
-
-    /* CONTACT */
-    #contact { background: var(--bg2); }
-
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; }
-
-    .contact-big {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
-      letter-spacing: 0.04em; line-height: 1.05;
-      color: var(--white); margin-bottom: 20px;
-    }
-
-    .contact-big span { color: var(--accent); }
-
-    .contact-desc { font-size: 0.95rem; font-weight: 300; color: #7777aa; line-height: 1.8; margin-bottom: 32px; }
-
-    .contact-links { display: flex; flex-direction: column; gap: 12px; }
-
-    .contact-row {
-      display: flex; align-items: center; gap: 14px;
-      padding: 14px 18px; background: var(--bg); border: 1px solid var(--border);
-      border-radius: 6px; text-decoration: none; transition: border-color 0.2s;
-    }
-
-    .contact-row:hover { border-color: var(--accent); }
-
-    .contact-icon {
-      width: 34px; height: 34px; background: rgba(99,102,255,0.1);
-      border-radius: 6px; display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; flex-shrink: 0;
-    }
-
-    .contact-txt { font-size: 0.85rem; color: #9999bb; }
-
-    /* CONTACT RIGHT — whatsapp buttons */
-    .contact-right { display: flex; flex-direction: column; gap: 20px; justify-content: center; }
-
-    .wa-block { display: flex; flex-direction: column; gap: 10px; }
-
-    .wa-label {
-      font-family: 'Space Mono', monospace; font-size: 0.6rem;
-      letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray);
-    }
-
-    .wa-btn {
-      display: inline-flex; align-items: center; gap: 12px;
-      padding: 16px 22px; border-radius: 8px;
-      background: rgba(37,211,102,0.07); border: 1px solid rgba(37,211,102,0.2);
-      text-decoration: none; transition: all 0.2s;
-    }
-
-    .wa-btn:hover { background: rgba(37,211,102,0.14); border-color: rgba(37,211,102,0.4); transform: translateX(4px); }
-
-    .wa-btn svg { flex-shrink: 0; }
-
-    .wa-btn-text { display: flex; flex-direction: column; }
-    .wa-btn-title { font-size: 0.88rem; font-weight: 600; color: #4ddb7a; }
-    .wa-btn-num { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: #3ab860; margin-top: 2px; }
-
-    .contact-divider {
-      font-family: 'Space Mono', monospace; font-size: 0.6rem;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--gray); text-align: center; padding: 8px 0;
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-    }
-
-    /* FOOTER */
-    footer {
-      background: var(--bg3); border-top: 1px solid var(--border);
-      padding: 22px 48px; display: flex; justify-content: space-between; align-items: center;
-    }
-
-    footer p { font-family: 'Space Mono', monospace; font-size: 0.62rem; color: #444466; letter-spacing: 0.06em; }
-
-    .footer-links { display: flex; gap: 20px; }
-    .footer-links a { font-family: 'Space Mono', monospace; font-size: 0.62rem; color: #555577; text-decoration: none; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--accent); }
-
-    /* FADE */
-    .fade-up { opacity: 0; transform: translateY(22px); transition: opacity 0.6s, transform 0.6s; }
-    .fade-up.visible { opacity: 1; transform: translateY(0); }
-
-    @media (max-width: 900px) {
-      nav { padding: 14px 20px; }
-      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg); padding: 16px 20px; border-bottom: 1px solid var(--border); gap: 16px; }
-      .nav-links.open { display: flex; }
-      .hamburger { display: flex; }
-      .nav-cta { display: none; }
-      .about-grid, .project-grid, .contact-grid { grid-template-columns: 1fr !important; gap: 36px; }
-      #hero { padding: 100px 20px 56px; }
-      section { padding: 60px 20px; }
-      .hero-stats { display: none; }
-      .skills-grid { grid-template-columns: 1fr; }
-      .edu-item { grid-template-columns: 1fr; gap: 8px; }
-      footer { flex-direction: column; gap: 10px; padding: 18px 20px; text-align: center; }
-      body { cursor: auto; }
-      .cursor, .cursor-ring { display: none; }
-      .lang-toggle { bottom: 16px; right: 16px; }
-    }
-  </style>
+  <title>Jenifer Reyes Pérez — Full Stack Engineer</title>
+  <meta name="description" content="Portafolio de Jenifer Reyes Pérez, Ingeniera de Sistemas y desarrolladora Full Stack (React, Node.js, PostgreSQL, .NET). Proyectos en producción, certificada en Scrum (SFC™)." />
+  <meta property="og:title" content="Jenifer Reyes Pérez — Full Stack Engineer" />
+  <meta property="og:description" content="Aplicaciones web y móviles en producción real. React, Node.js, PostgreSQL, C# .NET, Docker y Scrum." />
+  <meta name="theme-color" content="#060b12" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <!-- LANG TOGGLE -->
-  <div class="lang-toggle">
-    <button class="lang-btn" id="btnEs" onclick="setLang('es')">ES</button>
-    <button class="lang-btn" id="btnEn" onclick="setLang('en')">EN</button>
-  </div>
-
   <!-- NAV -->
   <nav>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#about"><span class="t" data-es="Sobre mí" data-en="About"></span></a></li>
-      <li><a href="#skills"><span class="t" data-es="Habilidades" data-en="Skills"></span></a></li>
-      <li><a href="#education"><span class="t" data-es="Educación" data-en="Education"></span></a></li>
-      <li><a href="#projects"><span class="t" data-es="Proyectos" data-en="Projects"></span></a></li>
-      <li><a href="#contact"><span class="t" data-es="Contacto" data-en="Contact"></span></a></li>
-    </ul>
-    <a href="#contact" class="nav-cta"><span class="t" data-es="Contrátame" data-en="Hire me"></span></a>
-    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <div class="wrap nav-inner">
+      <a href="#hero" class="nav-brand">JENIX<span>.DEV</span></a>
+      <ul class="nav-menu">
+        <li><a href="#about"><span class="t" data-es="Sobre mí" data-en="About"></span></a></li>
+        <li><a href="#services"><span class="t" data-es="Servicios" data-en="Services"></span></a></li>
+        <li><a href="#stack"><span class="t" data-es="Stack" data-en="Stack"></span></a></li>
+        <li><a href="#experience"><span class="t" data-es="Experiencia" data-en="Experience"></span></a></li>
+        <li><a href="#projects"><span class="t" data-es="Proyectos" data-en="Projects"></span></a></li>
+        <li><a href="#certs"><span class="t" data-es="Certificaciones" data-en="Certifications"></span></a></li>
+        <li><a href="#education"><span class="t" data-es="Educación" data-en="Education"></span></a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-switch" role="group" aria-label="Idioma / Language">
+          <button class="lang-btn" id="btnEs" type="button" aria-pressed="true" onclick="setLang('es')">ES</button>
+          <button class="lang-btn" id="btnEn" type="button" aria-pressed="false" onclick="setLang('en')">EN</button>
+        </div>
+        <a href="#contact" class="btn btn-login"><span class="t" data-es="Contactar" data-en="Contact"></span></a>
+      </div>
+    </div>
   </nav>
 
+  <main>
+
   <!-- HERO -->
-  <section id="hero">
-    <div class="hero-grid-bg"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-glow2"></div>
-    <div class="hero-eyebrow">
-      <span class="t" data-es="Desarrolladora Full Stack — República Dominicana" data-en="Full Stack Developer — Dominican Republic"></span>
-    </div>
-    <h1 class="hero-name">JENIFER<br><span class="outline">REYES</span></h1>
-    <p class="hero-sub">
-      <span class="t" data-es="Construyendo cosas que <span style='color: var(--white); font-weight: 500;'>realmente funcionan</span> — del código al servidor" data-en="Building things that <span style='color: var(--white); font-weight: 500;'>actually work</span> — from code to production"></span>
-    </p>
-    <div class="hero-bottom">
-      <div class="hero-btns">
-        <a href="#projects" class="btn-blue"><span class="t" data-es="Ver mi trabajo →" data-en="See my work →"></span></a>
-        <a href="#contact" class="btn-outline-blue"><span class="t" data-es="Hablemos" data-en="Let's talk"></span></a>
-      </div>
-      <div class="hero-stats">
-        <div><div class="h-stat-num">2+</div><div class="h-stat-label"><span class="t" data-es="Años" data-en="Years"></span></div></div>
-        <div><div class="h-stat-num">3</div><div class="h-stat-label"><span class="t" data-es="Proyectos" data-en="Projects"></span></div></div>
-        <div><div class="h-stat-num">∞</div><div class="h-stat-label"><span class="t" data-es="Café" data-en="Coffee"></span></div></div>
-      </div>
-    </div>
-  </section>
+  <section id="hero"><div class="wrap"><div class="hero-grid"><div class="hero-copy">
+<p class="eyebrow">JENIX.DEV / <span class="t " data-es="DESARROLLO FULL STACK" data-en="FULL STACK DEVELOPMENT">DESARROLLO FULL STACK</span></p>
+<h1><span class="t " data-es="Ideas que se convierten en &lt;em&gt;realidades.&lt;/em&gt;" data-en="Ideas that become &lt;em&gt;reality.&lt;/em&gt;">Ideas que se convierten en &lt;em&gt;realidades.&lt;/em&gt;</span></h1>
+<p class="hero-name"><span class="t " data-es="Soy Jenifer Reyes Pérez." data-en="I’m Jenifer Reyes Pérez.">Soy Jenifer Reyes Pérez.</span></p>
+<p class="t lead" data-es="Ingeniera de sistemas y desarrolladora full stack. Construyo aplicaciones web y móviles, desde la interfaz hasta su despliegue en producción." data-en="Systems engineer and full stack developer. I build web and mobile applications, from the interface to production deployment.">Ingeniera de sistemas y desarrolladora full stack. Construyo aplicaciones web y móviles, desde la interfaz hasta su despliegue en producción.</p>
+<div class="cta-row"><a class="btn btn-primary" href="#projects"><span class="t " data-es="Ver proyectos" data-en="View projects">Ver proyectos</span> <span>↓</span></a><a class="btn btn-ghost" href="https://wa.me/18292714334?text=Hola%20Jenifer%2C%20vi%20tu%20portafolio%20y%20quiero%20hablar%20de%20un%20proyecto." target="_blank" rel="noopener"><span class="t " data-es="Hablemos" data-en="Let’s talk">Hablemos</span> <span>↗</span></a></div>
+<div class="status-row"><span class="status-chip"><i class="dot"></i><span class="t " data-es="Disponible de inmediato" data-en="Available now">Disponible de inmediato</span></span><span class="status-chip"><span class="t " data-es="Remoto / Híbrido" data-en="Remote / Hybrid">Remoto / Híbrido</span></span><span class="status-chip">Scrum SFC™</span></div>
+</div><div class="hero-stage"><div class="orbit-label"><span class="t " data-es="IDEA → CÓDIGO → PRODUCCIÓN" data-en="IDEA → CODE → PRODUCTION">IDEA → CÓDIGO → PRODUCCIÓN</span></div><svg class="globe" viewBox="0 0 640 520" role="img" aria-label="Ilustración de un planeta conectado"><defs><radialGradient id="ocean" cx="45%" cy="18%" r="85%"><stop stop-color="#154d68"/><stop offset=".5" stop-color="#071826"/><stop offset="1" stop-color="#02060b"/></radialGradient><radialGradient id="halo"><stop offset=".66" stop-color="#00c7ef" stop-opacity="0"/><stop offset=".72" stop-color="#00c7ef" stop-opacity=".18"/><stop offset=".77" stop-color="#00c7ef" stop-opacity="0"/></radialGradient><clipPath id="planet"><circle cx="330" cy="385" r="252"/></clipPath><filter id="glow"><feGaussianBlur stdDeviation="5"/></filter><linearGradient id="edge" x2="0" y2="1"><stop stop-color="#4eeaff"/><stop offset=".6" stop-color="#00344e" stop-opacity="0"/></linearGradient></defs><circle cx="330" cy="385" r="348" fill="url(#halo)"/><g fill="#8fbbcf"><circle cx="71" cy="83" r="1"/><circle cx="230" cy="53" r="1.2"/><circle cx="410" cy="91" r="1"/><circle cx="529" cy="43" r="1"/><circle cx="580" cy="162" r="1.5"/><circle cx="145" cy="153" r="1"/><circle cx="336" cy="36" r=".8"/></g><circle cx="330" cy="385" r="254" fill="none" stroke="#00ceff" stroke-width="9" filter="url(#glow)"/><circle cx="330" cy="385" r="252" fill="url(#ocean)" stroke="url(#edge)" stroke-width="3"/><g clip-path="url(#planet)"><g fill="none" stroke="#1c465e" stroke-width="1" opacity=".65"><ellipse cx="330" cy="385" rx="100" ry="252"/><ellipse cx="330" cy="385" rx="193" ry="252"/><ellipse cx="330" cy="385" rx="252" ry="75"/><ellipse cx="330" cy="385" rx="252" ry="166"/><path d="M78 385h504M330 133v504"/></g><path d="m171 196 49-23 47 14 20 35-30 19-12 38 27 30-16 35-27-12-27-51-39-8-22-44zm105 150 45 19 36 56-19 47-34 49-19-29 8-48-23-40zm102-140 51-29 74 33 34 36-39 25-34-18-27 19-33-21-34 19-24-25z" fill="#14384a" stroke="#23526a"/><g fill="none" stroke="#00c7ef" stroke-opacity=".45"><path d="M217 252Q350 130 480 247M217 252Q225 370 314 422M314 422Q431 274 480 247"/></g><g fill="#73e9ff"><circle cx="217" cy="252" r="4"/><circle cx="314" cy="422" r="4"/><circle cx="480" cy="247" r="4"/></g><g fill="#afc6d4" font-size="10" font-family="monospace"><text x="228" y="249">RD</text><text x="326" y="426">BUILD</text><text x="492" y="245">DEPLOY</text></g></g></svg><p class="orbit-caption"><i class="dot"></i> <span class="t " data-es="SIN FRONTERAS. CON PROPÓSITO." data-en="WITHOUT BORDERS. WITH PURPOSE.">SIN FRONTERAS. CON PROPÓSITO.</span></p></div></div><div class="production-strip"><a href="https://wolffitnessmarket.com" target="_blank" rel="noopener"><i class="dot"></i> <span class="t " data-es="EN PRODUCCIÓN" data-en="IN PRODUCTION">EN PRODUCCIÓN</span> <strong>wolffitnessmarket.com ↗</strong></a><span>Frontend · Backend · <span class="t " data-es="Despliegue" data-en="Deployment">Despliegue</span></span><a href="#projects"><span class="t " data-es="EXPLORA MI TRABAJO" data-en="EXPLORE MY WORK">EXPLORA MI TRABAJO</span> ↓</a></div></div></section>
 
-  <!-- MARQUEE -->
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <span>REACT.JS</span><span class="dot">✦</span>
-      <span>NODE.JS</span><span class="dot">✦</span>
-      <span>POSTGRESQL</span><span class="dot">✦</span>
-      <span>FULL STACK</span><span class="dot">✦</span>
-      <span>NGINX</span><span class="dot">✦</span>
-      <span>VERCEL</span><span class="dot">✦</span>
-      <span>REMOTE</span><span class="dot">✦</span>
-      <span>SYSTEMS ENGINEER</span><span class="dot">✦</span>
-      <span>REACT.JS</span><span class="dot">✦</span>
-      <span>NODE.JS</span><span class="dot">✦</span>
-      <span>POSTGRESQL</span><span class="dot">✦</span>
-      <span>FULL STACK</span><span class="dot">✦</span>
-      <span>NGINX</span><span class="dot">✦</span>
-      <span>VERCEL</span><span class="dot">✦</span>
-      <span>REMOTE</span><span class="dot">✦</span>
-      <span>SYSTEMS ENGINEER</span><span class="dot">✦</span>
-    </div>
-  </div>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="sec-label">// 01</div>
-    <h2 class="sec-title"><span class="t" data-es="QUIÉN <span>SOY</span>" data-en="WHO I <span>AM</span>"></span></h2>
-    <div class="about-grid fade-up">
-      <div class="about-text">
-        <p class="t"
-          data-es="Soy <strong>Ingeniera de Sistemas</strong> y desarrolladora full stack de Santiago de los Caballeros, República Dominicana. 24 años, intensa, y construyo cosas que salen a producción — no solo se ven bien en Figma."
-          data-en="I'm a <strong>Systems Engineer</strong> and full-stack developer from Santiago de los Caballeros, Dominican Republic. 24 years old, intense, and I build things that go live — not just look good in Figma."></p>
-        <p class="t"
-          data-es="Lancé una plataforma de e-commerce completa para una tienda de suplementos deportivos con pagos reales, emails automáticos y configuración de servidor en producción. Soy dueña de los proyectos desde la primera línea de código hasta el día del deploy."
-          data-en="I shipped a complete e-commerce platform for a supplements retailer with real payments, automated emails, and production server setup. I own projects from first line of code to deployment day."></p>
-        <p class="t"
-          data-es="Depuro a las 2am, leo la documentación y no paro hasta que funciona."
-          data-en="I debug at 2am, I read docs, and I don't stop until it works."></p>
-        <div class="about-tags">
-          <span class="about-tag t" data-es="fitness" data-en="fitness"></span>
-          <span class="about-tag t" data-es="autos" data-en="cars"></span>
-          <span class="about-tag t" data-es="resolvedora de problemas" data-en="problem solver"></span>
-          <span class="about-tag t" data-es="autodidacta" data-en="self-taught"></span>
-          <span class="about-tag t" data-es="trabajo remoto" data-en="remote work"></span>
-          <span class="about-tag t" data-es="aprendizaje rápido" data-en="fast learner"></span>
-        </div>
+  <!-- SOBRE MÍ -->
+  <section id="about" class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="t" data-es="Sobre mí" data-en="Technology with someone who stands behind it."></h2>
       </div>
-      <div class="info-list">
-        <div class="info-row"><span class="info-key t" data-es="Nombre" data-en="Name"></span><span class="info-val">Jenifer Reyes Pérez</span></div>
-        <div class="info-row"><span class="info-key t" data-es="Edad" data-en="Age"></span><span class="info-val accent">24</span></div>
-        <div class="info-row"><span class="info-key t" data-es="Ubicación" data-en="Location"></span><span class="info-val">Santiago, Rep. Dom.</span></div>
-        <div class="info-row"><span class="info-key t" data-es="Título" data-en="Degree"></span><span class="info-val t" data-es="Ing. Sistemas — O&M" data-en="B.S. Systems Eng. — O&M"></span></div>
-        <div class="info-row"><span class="info-key t" data-es="Estado" data-en="Status"></span><span class="info-val light t" data-es="Disponible ahora" data-en="Available now"></span></div>
-        <div class="info-row"><span class="info-key t" data-es="Modalidad" data-en="Work type"></span><span class="info-val accent">Remote ✓</span></div>
-        <div class="info-row"><span class="info-key t" data-es="Visa" data-en="Visa"></span><span class="info-val t" data-es="No requiere patrocinio" data-en="No sponsorship needed"></span></div>
-        <div class="info-row"><span class="info-key">English</span><span class="info-val t" data-es="Nivel intermedio" data-en="Intermediate"></span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="sec-label">// 02</div>
-    <h2 class="sec-title"><span class="t" data-es="LO QUE <span>USO</span>" data-en="WHAT I <span>USE</span>"></span></h2>
-    <div class="skills-grid fade-up">
-      <div class="skill-block">
-        <div class="skill-block-num">01</div>
-        <h3>Frontend</h3>
-        <div class="skill-pills">
-          <span class="pill">React.js</span><span class="pill">JavaScript</span>
-          <span class="pill">HTML5</span><span class="pill">CSS3</span>
-          <span class="pill">React Router</span><span class="pill">Responsive</span>
-          <span class="pill">Figma</span>
-        </div>
-      </div>
-      <div class="skill-block">
-        <div class="skill-block-num">02</div>
-        <h3>Backend</h3>
-        <div class="skill-pills">
-          <span class="pill">Node.js</span><span class="pill">Express.js</span>
-          <span class="pill">PostgreSQL</span><span class="pill">REST APIs</span>
-          <span class="pill">jsPDF</span><span class="pill">Resend API</span>
-        </div>
-      </div>
-      <div class="skill-block">
-        <div class="skill-block-num">03</div>
-        <h3>DevOps & Deploy</h3>
-        <div class="skill-pills">
-          <span class="pill">Ubuntu Linux</span><span class="pill">Nginx</span>
-          <span class="pill">PM2</span><span class="pill">SSL/Certbot</span>
-          <span class="pill">Vercel</span><span class="pill">Cloudflare DNS</span>
-          <span class="pill">GoDaddy DNS</span>
-        </div>
-      </div>
-      <div class="skill-block">
-        <div class="skill-block-num">04</div>
-        <h3><span class="t" data-es="Integraciones" data-en="Integrations"></span></h3>
-        <div class="skill-pills">
-          <span class="pill">PayPal Live</span><span class="pill">Resend</span>
-          <span class="pill">Cloudinary</span><span class="pill">Elfsight</span>
-          <span class="pill">Google Search Console</span>
-        </div>
-      </div>
-      <div class="skill-block">
-        <div class="skill-block-num">05</div>
-        <h3><span class="t" data-es="Herramientas" data-en="Tools"></span></h3>
-        <div class="skill-pills">
-          <span class="pill">Git</span><span class="pill">GitHub</span>
-          <span class="pill">VS Code</span><span class="pill">Postman</span>
-          <span class="pill">AWS CDK</span>
-        </div>
-      </div>
-      <div class="skill-block">
-        <div class="skill-block-num">06</div>
-        <h3><span class="t" data-es="Certificaciones" data-en="Certifications"></span></h3>
-        <div class="skill-pills">
-          <span class="pill">freeCodeCamp — JavaScript Algorithms & Data Structures</span>
-          <span class="pill">freeCodeCamp — Responsive Web Design</span>
-          <span class="pill">freeCodeCamp — Python</span>
-          <span class="pill">freeCodeCamp — Relational Database</span>
-          <span class="pill">AWS CDK — Getting Started</span>
-          <span class="pill">Cisco — Basic Network</span>
-          <span class="pill">Ciberseguridad — Talento Digital</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EDUCATION -->
-  <section id="education">
-    <div class="sec-label">// 03</div>
-    <h2 class="sec-title"><span class="t" data-es="MI <span>FORMACIÓN</span>" data-en="MY <span>EDUCATION</span>"></span></h2>
-    <div class="edu-grid fade-up">
-      <div class="edu-item">
-        <div>
-          <div class="edu-year">2025</div>
-          <div class="edu-type t" data-es="Universidad" data-en="University"></div>
-        </div>
-        <div>
-          <div class="edu-title t" data-es="INGENIERÍA DE SISTEMAS Y COMPUTACIÓN" data-en="B.S. SYSTEMS AND COMPUTER ENGINEERING"></div>
-          <div class="edu-place">Universidad Dominicana O&M</div>
-          <div class="edu-desc t"
-            data-es="Graduada en noviembre de 2025. Formación en desarrollo de software, redes, bases de datos, arquitectura de sistemas y gestión de proyectos tecnológicos."
-            data-en="Graduated November 2025. Training in software development, networking, databases, systems architecture and technology project management."></div>
-        </div>
-      </div>
-      <div class="edu-item">
-        <div>
-          <div class="edu-year">2020</div>
-          <div class="edu-type t" data-es="Técnico Secundaria" data-en="Technical High School"></div>
-        </div>
-        <div>
-          <div class="edu-title t" data-es="BACHILLER TÉCNICO EN DESARROLLO Y ADMINISTRACIÓN DE APLICACIONES INFORMÁTICAS" data-en="TECHNICAL BACHELOR IN SOFTWARE DEVELOPMENT & IT ADMINISTRATION"></div>
-          <div class="edu-place">Politécnico Salesiano Arquides Calderón — Moca</div>
-          <div class="edu-desc t"
-            data-es="Formación técnica en programación, administración de sistemas informáticos y desarrollo de aplicaciones. Base sólida que complementó mi carrera universitaria."
-            data-en="Technical training in programming, computer systems administration, and application development. A solid foundation that complemented my university degree."></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="sec-label">// 04</div>
-    <h2 class="sec-title"><span class="t" data-es="LO QUE HE <span>LANZADO</span>" data-en="WHAT I'VE <span>SHIPPED</span>"></span></h2>
-    <div class="project-grid">
-      
-      <!-- PROYECTO 01 -->
-      <div class="proj-card fade-up">
-        <div class="proj-header">
-          <div class="proj-num-bg">01</div>
-          <div class="proj-emoji">🛒</div>
-        </div>
-        <div class="proj-body">
-          <div class="proj-type t" data-es="E-Commerce · En producción" data-en="E-Commerce · Live in production"></div>
-          <div class="proj-name">WOLFS FITNESS MARKET</div>
-          <p class="proj-desc t"
-            data-es="Plataforma de e-commerce completa para una tienda de suplementos deportivos — construida y desplegada de principio a fin. Pagos reales, facturación automática, panel de administración, SEO."
-            data-en="Complete e-commerce platform for a sports supplements retailer — built and deployed end to end. Real payments, automated invoicing, admin panel, SEO."></p>
-          <div class="proj-stack">
-            <span class="proj-tag">React.js</span><span class="proj-tag">Node.js</span>
-            <span class="proj-tag">PostgreSQL</span><span class="proj-tag">PayPal Live</span>
-            <span class="proj-tag">Resend</span><span class="proj-tag">Cloudinary</span>
-            <span class="proj-tag">Nginx</span><span class="proj-tag">PM2</span><span class="proj-tag">SSL</span>
-          </div>
-          <a href="https://wolffitnessmarket.com" target="_blank" class="proj-link">wolffitnessmarket.com →</a>
-        </div>
-      </div>
-
-      <!-- PROYECTO 02 -->
-      <div class="proj-card fade-up" style="transition-delay:0.15s">
-        <div class="proj-header">
-          <div class="proj-num-bg">02</div>
-          <div class="proj-emoji">🏦</div>
-        </div>
-        <div class="proj-body">
-          <div class="proj-type t" data-es="Fintech · En producción" data-en="Fintech · Live in production"></div>
-          <div class="proj-name">JM ODEPEM FINANCIERA</div>
-          <p class="proj-desc t"
-            data-es="Sitio institucional para una financiera en República Dominicana. Solicitud de préstamo en línea en múltiples pasos con generación de PDF, calculadora interactiva, catálogo de vehículos y sistema de diseño de marca."
-            data-en="Institutional website for a financial services company in the DR. Multi-step online loan application with PDF generation, interactive calculator, vehicle catalog and full brand design system."></p>
-          <div class="proj-stack">
-            <span class="proj-tag">React.js</span><span class="proj-tag">Node.js</span>
-            <span class="proj-tag">Express</span><span class="proj-tag">jsPDF</span>
-            <span class="proj-tag">Resend API</span><span class="proj-tag">Nginx</span>
-            <span class="proj-tag">PM2</span><span class="proj-tag">SSL</span>
-          </div>
-          <a href="https://www.jmodepem.com" target="_blank" class="proj-link">jmodepem.com →</a>
-        </div>
-      </div>
-
-      <!-- PROYECTO 03 (ACTUALIZADO CON TU ENLACE REAL) -->
-      <div class="proj-card fade-up" style="transition-delay:0.3s">
-        <div class="proj-header">
-          <div class="proj-num-bg">03</div>
-          <div class="proj-emoji">⚡</div>
-        </div>
-        <div class="proj-body">
-          <div class="proj-type t" data-es="Fitness Brand · En producción" data-en="Fitness Brand · Live in production"></div>
-          <div class="proj-name">RANGERR AESTHETIC</div>
-          <p class="proj-desc t"
-            data-es="Sitio web de alto impacto para personal coaching con diseño oscuro estilo Raw Nutrition. Incluye fondo de video, galería de transformaciones responsiva en paralelo e integración oficial con el API/Feed de Instagram."
-            data-en="High-impact fitness coaching landing page with dark Raw Nutrition aesthetics. Features background video hero, responsive before/after comparison grid, and official Instagram feed API integration."></p>
-          <div class="proj-stack">
-            <span class="proj-tag">HTML5</span><span class="proj-tag">CSS3 / Flexbox</span>
-            <span class="proj-tag">JavaScript</span><span class="proj-tag">Vite</span>
-            <span class="proj-tag">Elfsight API</span><span class="proj-tag">Netlify</span>
-          </div>
-          <a href="https://jcrangerr.netlify.app/" target="_blank" class="proj-link">jcrangerr.netlify.app →</a>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="sec-label">// 05</div>
-    <div class="contact-grid fade-up">
-      <div>
-        <div class="contact-big">
-          <span class="t" data-es="CONSTRUYAMOS<br>ALGO<br><span>JUNTOS.</span>" data-en="LET'S<br>BUILD<br><span>SOMETHING.</span>"></span>
-        </div>
-        <p class="contact-desc t"
-          data-es="Abierta a proyectos freelance remotos, contratos y empleos de tiempo completo. Si necesitas a alguien que sea dueña del stack completo y haga el deploy — aquí estoy."
-          data-en="Open to remote freelance projects, contracts and full-time roles. If you need someone who owns the full stack and ships — I'm your person."></p>
-        <div class="contact-links">
-          <a href="mailto:jeniferreyesperez@gmail.com" class="contact-row">
-            <div class="contact-icon">📧</div>
-            <span class="contact-txt">jeniferreyesperez@gmail.com</span>
-          </a>
-          <a href="tel:+18296474052" class="contact-row">
-            <div class="contact-icon">📱</div>
-            <span class="contact-txt">829-647-4052</span>
-          </a>
-          <a href="https://linkedin.com/in/jenifer-reyes-perez-9613a1399" target="_blank" class="contact-row">
-            <div class="contact-icon">💼</div>
-            <span class="contact-txt">linkedin.com/in/jenifer-reyes-perez-9613a1399</span>
-          </a>
-        </div>
-      </div>
-      <div class="contact-right">
-        <div class="wa-label t" data-es="Escríbeme directamente por WhatsApp" data-en="Message me directly on WhatsApp"></div>
-        <div class="wa-block">
-          <a href="https://wa.me/18296474052?text=Hola%20Jenifer%2C%20vi%20tu%20portfolio%20y%20me%20interesa%20contactarte." target="_blank" class="wa-btn">
-            <svg viewBox="0 0 24 24" fill="#4ddb7a" width="28" height="28">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-            <div class="wa-btn-text">
-              <span class="wa-btn-title t" data-es="WhatsApp Personal" data-en="WhatsApp Personal"></span>
-              <span class="wa-btn-num">829-647-4052</span>
+      <div class="card g-purple">
+        <div class="about-grid">
+          <div>
+            <p class="t"
+               data-es="Soy <strong>Ingeniera de Sistemas</strong> y desarrolladora Full Stack en Santiago de los Caballeros, República Dominicana. Diseño, desarrollo y despliego aplicaciones web y móviles escalables para clientes reales, con arquitectura limpia (CQRS / Vertical Slice), pruebas unitarias y de integración, contenedores con Docker y administración de servidores VPS con Ubuntu, Nginx y PM2."
+               data-en="I'm a <strong>Systems Engineer</strong> and Full Stack developer based in Santiago de los Caballeros, Dominican Republic. I design, build and deploy scalable web and mobile applications for real clients, with clean architecture (CQRS / Vertical Slice), unit and integration testing, Docker containers and VPS administration on Ubuntu, Nginx and PM2."></p>
+            <p class="t"
+               data-es="Me importan el código limpio, el control de calidad y los productos de alto rendimiento. Ya integré pagos reales con PayPal Live, correos transaccionales con Resend y SSL en producción. En septiembre de 2026 me certifiqué como <strong>Scrum Fundamentals Certified (SFC™)</strong> para sumar método a mi forma de trabajar."
+               data-en="I care about clean code, quality control and high-performance products. I've already shipped real PayPal Live payments, transactional email with Resend and SSL in production. In September 2026 I earned the <strong>Scrum Fundamentals Certified (SFC™)</strong> credential to bring more method to how I work."></p>
+            <div class="chips">
+              <span class="chip t" data-es="fitness" data-en="fitness"></span>
+              <span class="chip t" data-es="autos" data-en="cars"></span>
+              <span class="chip t" data-es="resolvedora" data-en="problem solver"></span>
+              <span class="chip t" data-es="autodidacta" data-en="self-taught"></span>
+              <span class="chip t" data-es="trabajo remoto" data-en="remote work"></span>
             </div>
-          </a>
+          </div>
+          <div class="facts">
+            <div class="fact"><span class="t" data-es="Nombre" data-en="Name"></span><span>Jenifer Reyes Pérez</span></div>
+            <div class="fact"><span class="t" data-es="Edad" data-en="Age"></span><span>24</span></div>
+            <div class="fact"><span class="t" data-es="Ubicación" data-en="Location"></span><span class="t" data-es="Santiago, Rep. Dom." data-en="Santiago, Dominican Rep."></span></div>
+            <div class="fact"><span class="t" data-es="Título" data-en="Degree"></span><span class="t" data-es="Ing. Sistemas y Computación" data-en="B.S. Systems & Computing Eng."></span></div>
+            <div class="fact"><span class="t" data-es="Disponibilidad" data-en="Availability"></span><span class="t" data-es="Inmediata" data-en="Immediate"></span></div>
+            <div class="fact"><span class="t" data-es="Modalidad" data-en="Work type"></span><span>Remote / Hybrid</span></div>
+            <div class="fact"><span class="t" data-es="Español" data-en="Spanish"></span><span class="t" data-es="Nativo" data-en="Native"></span></div>
+            <div class="fact"><span class="t" data-es="Inglés" data-en="English"></span><span>B1 <span class="t" data-es="Intermedio" data-en="Intermediate"></span></span></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+<section id="services" class="block"><div class="wrap"><p class="eyebrow">02 / <span class="t " data-es="QUÉ PUEDO CONSTRUIR" data-en="WHAT I CAN BUILD">QUÉ PUEDO CONSTRUIR</span></p><div class="section-heading"><h2><span class="t " data-es="Tu idea, en el formato correcto." data-en="Your idea, in the right format.">Tu idea, en el formato correcto.</span></h2><p class="t " data-es="Del primer punto de contacto al sistema que sostiene tu negocio." data-en="From the first point of contact to the system that powers your business.">Del primer punto de contacto al sistema que sostiene tu negocio.</p></div><div class="services-grid"><a class="service" href="https://wa.me/18292714334?text=Hola%20Jenifer%2C%20vi%20tu%20portafolio%20y%20quiero%20hablar%20de%20un%20proyecto." target="_blank" rel="noopener"><span class="service-icon" aria-hidden="true">▤</span><span class="service-arrow">↗</span><h3><span class="t " data-es="Desarrollo web" data-en="Web development">Desarrollo web</span></h3><p class="t " data-es="Sitios y aplicaciones claros, funcionales y adaptables a cada pantalla." data-en="Clear, functional websites and applications that adapt to every screen.">Sitios y aplicaciones claros, funcionales y adaptables a cada pantalla.</p><small><span class="t " data-es="INTERFACES + LÓGICA DE NEGOCIO" data-en="INTERFACES + BUSINESS LOGIC">INTERFACES + LÓGICA DE NEGOCIO</span></small></a><a class="service" href="https://wa.me/18292714334?text=Hola%20Jenifer%2C%20vi%20tu%20portafolio%20y%20quiero%20hablar%20de%20un%20proyecto." target="_blank" rel="noopener"><span class="service-icon" aria-hidden="true">▯</span><span class="service-arrow">↗</span><h3><span class="t " data-es="Aplicaciones móviles" data-en="Mobile applications">Aplicaciones móviles</span></h3><p class="t " data-es="Experiencias que acompañan a tus usuarios desde la pantalla de su celular." data-en="Experiences that meet your users on their mobile screens.">Experiencias que acompañan a tus usuarios desde la pantalla de su celular.</p><small><span class="t " data-es="EXPERIENCIA + FUNCIONALIDAD" data-en="EXPERIENCE + FUNCTIONALITY">EXPERIENCIA + FUNCIONALIDAD</span></small></a><a class="service" href="https://wa.me/18292714334?text=Hola%20Jenifer%2C%20vi%20tu%20portafolio%20y%20quiero%20hablar%20de%20un%20proyecto." target="_blank" rel="noopener"><span class="service-icon" aria-hidden="true">♧</span><span class="service-arrow">↗</span><h3><span class="t " data-es="E-commerce" data-en="E-commerce">E-commerce</span></h3><p class="t " data-es="Tiendas online con catálogo, pagos e inventario para conectar con tus compradores." data-en="Online stores with catalogs, payments and inventory to connect with customers.">Tiendas online con catálogo, pagos e inventario para conectar con tus compradores.</p><small><span class="t " data-es="CATÁLOGO + COMPRA" data-en="CATALOG + CHECKOUT">CATÁLOGO + COMPRA</span></small></a><a class="service" href="https://wa.me/18292714334?text=Hola%20Jenifer%2C%20vi%20tu%20portafolio%20y%20quiero%20hablar%20de%20un%20proyecto." target="_blank" rel="noopener"><span class="service-icon" aria-hidden="true">⌘</span><span class="service-arrow">↗</span><h3><span class="t " data-es="Sistemas a medida" data-en="Custom software">Sistemas a medida</span></h3><p class="t " data-es="Software construido alrededor de tus procesos, tus datos y tu operación." data-en="Software built around your processes, data and operations.">Software construido alrededor de tus procesos, tus datos y tu operación.</p><small><span class="t " data-es="PROCESOS + INTEGRACIONES" data-en="PROCESSES + INTEGRATIONS">PROCESOS + INTEGRACIONES</span></small></a></div></div></section>
+  <!-- STACK -->
+  <section id="stack" class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">03 / STACK</p><h2 class="t" data-es="Un stack. De extremo a extremo." data-en="One stack. End to end."></h2>
+        <p class="lead t"
+           data-es="Lo que uso para llevar un producto de la idea al servidor."
+           data-en="What I use to take a product from idea to server."></p>
+      </div>
+      <div class="stack-grid">
+
+        <div class="stack-card g-cer">
+          <h3>Frontend &amp; UI/UX</h3>
+          <div class="chips">
+            <span class="chip">React.js</span><span class="chip">Vue.js</span><span class="chip">React Native</span>
+            <span class="chip">JavaScript ES6+</span><span class="chip">HTML5</span><span class="chip">CSS3</span>
+            <span class="chip">React Router</span><span class="chip">Responsive Design</span>
+            <span class="chip">Component Architecture</span><span class="chip">UI/UX</span><span class="chip">Figma</span>
+          </div>
+        </div>
+
+        <div class="stack-card g-green">
+          <h3 class="t" data-es="Backend y lenguajes" data-en="Backend &amp; languages"></h3>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">Node.js</span><span class="chip">Express.js</span>
+            <span class="chip">C# .NET / ASP.NET Core</span><span class="chip">RESTful APIs</span>
+            <span class="chip">jsPDF</span><span class="chip">Resend API</span>
+          </div>
+        </div>
+
+        <div class="stack-card g-purple">
+          <h3 class="t" data-es="Arquitectura" data-en="Architecture"></h3>
+          <div class="chips">
+            <span class="chip">Vertical Slice Architecture</span><span class="chip">CQRS</span>
+            <span class="chip">MediatR</span><span class="chip">Entity Framework Core</span>
+            <span class="chip">Clean Architecture</span>
+          </div>
+        </div>
+
+        <div class="stack-card g-pink">
+          <h3 class="t" data-es="Calidad y metodología" data-en="Quality &amp; methodology"></h3>
+          <div class="chips">
+            <span class="chip">Unit Testing</span><span class="chip">Integration Testing</span>
+            <span class="chip">TDD</span><span class="chip">Debugging</span>
+            <span class="chip">Quality Control</span><span class="chip">Scrum (SFC™)</span>
+          </div>
+        </div>
+
+        <div class="stack-card g-orange">
+          <h3 class="t" data-es="Datos y DevOps" data-en="Data &amp; DevOps"></h3>
+          <div class="chips">
+            <span class="chip">PostgreSQL</span><span class="chip">SQL</span><span class="chip">Bash</span>
+            <span class="chip">Docker</span><span class="chip">Ubuntu VPS</span><span class="chip">Nginx</span>
+            <span class="chip">PM2</span><span class="chip">Certbot / SSL</span><span class="chip">Cloudflare</span>
+            <span class="chip">GoDaddy DNS</span><span class="chip">AWS CDK</span>
+          </div>
+        </div>
+
+        <div class="stack-card g-slate">
+          <h3 class="t" data-es="Herramientas e integraciones" data-en="Tools &amp; integrations"></h3>
+          <div class="chips">
+            <span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">VS Code</span>
+            <span class="chip">Postman</span><span class="chip">GitHub Pages</span><span class="chip">Vercel</span>
+            <span class="chip">PayPal Live API</span><span class="chip">Cloudinary</span>
+            <span class="chip">Formspree</span><span class="chip">Elfsight</span>
+            <span class="chip">Google Search Console</span><span class="chip">Vite</span><span class="chip">Netlify</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCIA -->
+  <section id="experience" class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">04 / EXPERIENCIA</p><h2 class="t" data-es="Experiencia" data-en="Experience"></h2>
+        <p class="lead t"
+           data-es="Proyectos reales, con clientes reales y servidores que siguen encendidos."
+           data-en="Real projects, real clients, and servers that are still running."></p>
+      </div>
+      <div class="xp-list">
+
+        <article class="card xp g-teal">
+          <div class="xp-date"><span>2026</span><span class="xp-tag t" data-es="Completado" data-en="Completed"></span></div>
+          <div>
+            <h3>Full Stack Developer</h3>
+            <p class="xp-org">Sosa-Frotman Inversiones · Moca, RD</p>
+            <ul>
+              <li class="t" data-es="Diseño y construcción completados de una plataforma SaaS para una financiera: frontend, backend en Python, APIs, autenticación y seguridad, DevOps y pruebas." data-en="Designed and built a SaaS platform for a finance company: frontend, Python backend, APIs, authentication and security, DevOps and testing."></li>
+              <li class="t" data-es="Sitio de 7 rutas con catálogo de 6 servicios (préstamos, hipotecas, financiamiento de vehículos y celulares, seguro vehicular, GPS y traspasos) y landings propias para seguro vehicular y GPS." data-en="7-route website with a 6-service catalog (loans, mortgages, vehicle and phone financing, vehicle insurance, GPS and transfers) and dedicated landing pages for vehicle insurance and GPS."></li>
+              <li class="t" data-es="Solicitud de crédito digital de 6 pasos, adaptada del formulario en papel de la financiera." data-en="6-step digital credit application, adapted from the company's paper form."></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card xp g-cer">
+          <div class="xp-date"><span>2025 – 2026</span><span class="xp-tag">Freelance</span></div>
+          <div>
+            <h3>Full Stack Web Developer</h3>
+            <p class="xp-org">Financiera JM ODEPEM S.R.L. · jmodepem.com</p>
+            <ul>
+              <li class="t" data-es="Desarrollé una app web institucional multipágina en React.js, con UI/UX responsive y enrutamiento del lado del cliente." data-en="Built a multi-page institutional web app in React.js with responsive UI/UX and client-side routing."></li>
+              <li class="t" data-es="Construí y desplegué el backend Node.js/Express en un VPS de Hostinger con Nginx como proxy inverso y PM2, con servicios en Docker donde aplica." data-en="Built and deployed the Node.js/Express backend on a Hostinger VPS with Nginx reverse proxy and PM2, with Docker services where applicable."></li>
+              <li class="t" data-es="Configuré certificados SSL con Certbot y administré el DNS en GoDaddy y Cloudflare." data-en="Configured SSL certificates with Certbot and managed DNS on GoDaddy and Cloudflare."></li>
+              <li class="t" data-es="Desarrollé un formulario de solicitud de préstamo de 6 pasos que genera un PDF en base64 (jsPDF) y lo envía automáticamente con Resend API." data-en="Engineered a 6-step loan application form that generates a base64 PDF (jsPDF) and delivers it automatically through Resend API."></li>
+              <li class="t" data-es="Creé el portal subsidiario JM Inversiones con catálogo interactivo de 12 vehículos y formulario de financiamiento." data-en="Created the JM Inversiones subsidiary portal with an interactive 12-vehicle catalog and a financing form."></li>
+              <li class="t" data-es="Integré un widget de Instagram (Elfsight) y un cotizador de préstamos en tiempo real." data-en="Integrated an Instagram widget (Elfsight) and a real-time loan calculator."></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card xp g-green">
+          <div class="xp-date"><span>2024 – 2025</span><span class="xp-tag">Freelance</span></div>
+          <div>
+            <h3>Full Stack Web Developer</h3>
+            <p class="xp-org">Wolfs Fitness Market · wolffitnessmarket.com</p>
+            <ul>
+              <li class="t" data-es="Desarrollé una plataforma e-commerce con frontend en React.js y API REST en Node.js/Express, con estándares de UI/UX responsive." data-en="Built an e-commerce platform with a React.js frontend and a Node.js/Express REST API, following responsive UI/UX standards."></li>
+              <li class="t" data-es="Integré la pasarela PayPal Live, facturación automática con Resend API y almacenamiento de medios en Cloudinary." data-en="Integrated the PayPal Live gateway, automated invoicing with Resend API and Cloudinary media storage."></li>
+              <li class="t" data-es="Desplegué y mantengo el sitio en un VPS Ubuntu 22.04 con Nginx, PM2 y SSL Certbot sobre Cloudflare." data-en="Deployed and maintain the site on an Ubuntu 22.04 VPS with Nginx, PM2 and Certbot SSL over Cloudflare."></li>
+              <li class="t" data-es="Implementé un panel de administración para inventario y pedidos, protocolos de prueba rigurosos y optimización SEO." data-en="Implemented an admin panel for inventory and orders, rigorous testing protocols and SEO optimization."></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card xp g-pink">
+          <div class="xp-date"><span>Freelance</span></div>
+          <div>
+            <h3>Web Developer</h3>
+            <p class="xp-org">Rangerr Aesthetic · jcrangerr.netlify.app</p>
+            <ul>
+              <li class="t" data-es="Landing de alto impacto visual para coaching personal, con estética oscura estilo Raw Nutrition." data-en="High-impact landing page for personal coaching with a dark Raw Nutrition aesthetic."></li>
+              <li class="t" data-es="Integré el feed oficial de Instagram (Elfsight) y un video hero de fondo." data-en="Integrated the official Instagram feed (Elfsight) and a background hero video."></li>
+              <li class="t" data-es="Construida con HTML5, CSS3, JavaScript y Vite, y desplegada en Netlify." data-en="Built with HTML5, CSS3, JavaScript and Vite, and deployed on Netlify."></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card xp g-navy">
+          <div class="xp-date"><span>2026</span><span class="xp-tag t" data-es="Independiente" data-en="Independent"></span></div>
+          <div>
+            <h3>Independent Web Developer &amp; Mobile Applications</h3>
+            <p class="xp-org t" data-es="Desarrollo de software y portafolio profesional" data-en="Software development &amp; professional portfolio"></p>
+            <ul>
+              <li class="t" data-es="<strong>FitTrack (app móvil):</strong> desarrollada en React Native, un panel de salud y rendimiento que calcula el gasto energético diario total (TDEE), calorías activas y macronutrientes, con UI/UX inspirada en Strava." data-en="<strong>FitTrack (mobile app):</strong> built with React Native, a health and athletic dashboard that tracks Total Daily Energy Expenditure (TDEE), active calories and macronutrients, with Strava-inspired UI/UX."></li>
+              <li class="t" data-es="<strong>APIs en Python y C# .NET:</strong> Web APIs con Vertical Slice Architecture, CQRS con MediatR y Entity Framework Core, respaldadas por pruebas unitarias y de integración." data-en="<strong>Python &amp; C# .NET backends:</strong> Web APIs using Vertical Slice Architecture, CQRS with MediatR and Entity Framework Core, backed by unit and integration tests."></li>
+              <li class="t" data-es="<strong>Portafolio y DevOps:</strong> portal personal desplegado en GitHub Pages, con soporte de Docker para entornos locales." data-en="<strong>Portfolio &amp; DevOps:</strong> personal portal deployed on GitHub Pages with Docker support for local environments."></li>
+              <li class="t" data-es="<strong>Bases de datos y automatización:</strong> diseño de bases relacionales en PostgreSQL con carga de datos automatizada mediante scripts Bash." data-en="<strong>Databases &amp; automation:</strong> relational database design in PostgreSQL with automated data loading through Bash scripts."></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card xp g-slate">
+          <div class="xp-date"><span>2024 – 2026</span></div>
+          <div>
+            <h3 class="t" data-es="Asistente administrativa y soporte al cliente" data-en="Administrative Assistant &amp; Customer Support"></h3>
+            <p class="xp-org">Platinum Auto Care S.R.L. · KSA RG Promotora · CG Comunicaciones</p>
+            <ul>
+              <li class="t" data-es="Gestión administrativa, atención al cliente, manejo de herramientas digitales y relación con clientes." data-en="Administrative management, customer service, digital tools and customer relationship management."></li>
+              <li class="t" data-es="Soporte técnico IT (Racol Computers, 2019)." data-en="IT technical support (Racol Computers, 2019)."></li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROYECTOS -->
+  <section id="projects" class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">05 / PORTFOLIO</p><h2 class="t" data-es="Ideas convertidas en proyectos." data-en="Ideas turned into projects."></h2>
+        <p class="lead t"
+           data-es="Cinco proyectos completados. Prestave, mi único proyecto en desarrollo."
+           data-en="Five completed projects. Prestave is my only project in development."></p>
+      </div>
+      <div class="proj-list"><article class="card proj prestave"><div class="proj-copy"><span class="proj-kind progress"><span class="t " data-es="ÚNICO PROYECTO EN DESARROLLO" data-en="ONLY PROJECT IN DEVELOPMENT">ÚNICO PROYECTO EN DESARROLLO</span></span><h3>Prestave</h3><p class="t " data-es="Mi proyecto actual en desarrollo. Un nuevo producto al que estoy dando forma, con foco en la arquitectura y la calidad del software." data-en="My current project in development. A new product I am shaping with a focus on architecture and software quality.">Mi proyecto actual en desarrollo. Un nuevo producto al que estoy dando forma, con foco en la arquitectura y la calidad del software.</p><div class="proj-links"><a class="btn btn-ghost" href="https://wa.me/18292714334?text=Hola%20Jenifer%2C%20vi%20tu%20portafolio%20y%20quiero%20hablar%20de%20un%20proyecto." target="_blank" rel="noopener"><span class="t " data-es="Conversemos sobre Prestave" data-en="Let’s talk about Prestave">Conversemos sobre Prestave</span> ↗</a></div></div><div class="development-panel"><span class="eyebrow">PRESTAVE / <span class="t " data-es="EN DESARROLLO" data-en="IN DEVELOPMENT">EN DESARROLLO</span></span><div class="development-mark" aria-hidden="true">P<span>_</span></div><p><span class="t " data-es="De la idea al siguiente paso." data-en="From idea to the next step.">De la idea al siguiente paso.</span></p><div class="build-line"><i></i></div></div></article>
+
+        <!-- Wolfs -->
+        <article class="card proj g-green">
+          <div class="proj-copy">
+            <span class="proj-kind t" data-es="E-commerce · Completado" data-en="E-commerce · Completed"></span>
+            <h3>Wolfs Fitness Market</h3>
+            <p class="t"
+               data-es="Tienda en línea de suplementos deportivos con pagos reales en PayPal Live, facturas automáticas por correo, panel de administración y un servidor Ubuntu configurado desde cero."
+               data-en="Online sports-supplement store with real PayPal Live payments, automatic email invoices, an admin panel and an Ubuntu server configured from scratch."></p>
+            <div class="chips">
+              <span class="chip">React.js</span><span class="chip">Node.js</span><span class="chip">PostgreSQL</span>
+              <span class="chip">PayPal Live</span><span class="chip">Cloudinary</span><span class="chip">Nginx</span><span class="chip">PM2</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-secondary" href="https://wolffitnessmarket.com" target="_blank" rel="noopener"><span class="t" data-es="Ver sitio en vivo" data-en="Visit live site"></span></a>
+            </div>
+          </div>
+          <div class="frame" aria-hidden="true">
+            <div class="frame-bar"><div class="frame-dots"><i></i><i></i><i></i></div><div class="frame-url">wolffitnessmarket.com</div></div>
+            <div class="frame-body">
+              <div class="row"><span class="dot"></span><span class="t" data-es="Pagos PayPal Live en producción" data-en="PayPal Live payments in production"></span></div>
+              <div class="row"><span class="dot cer"></span><span class="t" data-es="Facturas automáticas con Resend API" data-en="Automatic invoices via Resend API"></span></div>
+              <div class="row"><span class="dot ora"></span><span class="t" data-es="Panel de inventario y pedidos" data-en="Inventory and orders panel"></span></div>
+              <div class="row"><span class="dot"></span><span>Ubuntu 22.04 · Nginx · PM2 · SSL</span></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- JM ODEPEM -->
+        <article class="card proj rev g-cer">
+          <div class="proj-copy">
+            <span class="proj-kind t" data-es="Fintech · Completado" data-en="Fintech · Completed"></span>
+            <h3>JM ODEPEM Financiera</h3>
+            <p class="t"
+               data-es="Sitio institucional para una financiera, con cotizador de préstamos en tiempo real, solicitud de 6 pasos que genera un PDF y lo envía por correo, y el portal JM Inversiones con catálogo de 12 vehículos."
+               data-en="Institutional website for a finance company with a real-time loan calculator, a 6-step application that generates a PDF and emails it, and the JM Inversiones portal with a 12-vehicle catalog."></p>
+            <div class="chips">
+              <span class="chip">React.js</span><span class="chip">Node.js</span><span class="chip">Express</span>
+              <span class="chip">jsPDF</span><span class="chip">Resend API</span><span class="chip">Docker</span><span class="chip">Nginx</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-secondary" href="https://www.jmodepem.com" target="_blank" rel="noopener"><span class="t" data-es="Ver sitio en vivo" data-en="Visit live site"></span></a>
+            </div>
+          </div>
+          <div class="frame" aria-hidden="true">
+            <div class="frame-bar"><div class="frame-dots"><i></i><i></i><i></i></div><div class="frame-url">jmodepem.com</div></div>
+            <div class="frame-body">
+              <div class="steps-label t" data-es="Solicitud de préstamo · paso 3 de 6" data-en="Loan application · step 3 of 6"></div>
+              <div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+              <div class="row"><span class="dot"></span><span class="t" data-es="Cotizador en tiempo real" data-en="Real-time loan calculator"></span></div>
+              <div class="row"><span class="dot cer"></span><span class="t" data-es="PDF base64 (jsPDF) enviado por Resend" data-en="Base64 PDF (jsPDF) sent via Resend"></span></div>
+              <div class="row"><span class="dot ora"></span><span class="t" data-es="JM Inversiones · catálogo de 12 vehículos" data-en="JM Inversiones · 12-vehicle catalog"></span></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Sosa-Frotman -->
+        <article class="card proj g-teal">
+          <div class="proj-copy">
+            <span class="proj-kind t" data-es="Fintech · Completado" data-en="Fintech · Completed"></span>
+            <h3>Sosa-Frotman Inversiones</h3>
+            <p class="t"
+               data-es="Plataforma web para una financiera en Moca: catálogo de servicios (préstamos, financiamiento de vehículos y celulares, seguro vehicular, GPS y traspasos) y una solicitud de crédito digital de 6 pasos. Backend en Python."
+               data-en="Web platform for a finance company in Moca: service catalog (loans, vehicle and phone financing, vehicle insurance, GPS and transfers) and a 6-step digital credit application. Python backend."></p>
+            <div class="chips">
+              <span class="chip">Python</span><span class="chip">APIs</span>
+              <span class="chip t" data-es="Auth y seguridad" data-en="Auth &amp; security"></span>
+              <span class="chip">DevOps</span><span class="chip">Testing</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-secondary" href="https://sosafrotman.com" target="_blank" rel="noopener"><span class="t" data-es="Ver sitio en vivo" data-en="Visit live site">Ver sitio en vivo</span> ↗</a>
+            </div>
+          </div>
+          <div class="frame" aria-hidden="true">
+            <div class="frame-bar"><div class="frame-dots"><i></i><i></i><i></i></div><div class="frame-url">sosafrotman.com</div></div>
+            <div class="frame-body">
+              <div class="steps-label t" data-es="Solicitud de crédito · paso 2 de 6" data-en="Credit application · step 2 of 6"></div>
+              <div class="steps"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+              <div class="row"><span class="dot"></span><span class="t" data-es="7 rutas · catálogo de 6 servicios" data-en="7 routes · 6-service catalog"></span></div>
+              <div class="row"><span class="dot cer"></span><span class="t" data-es="Landings: seguro vehicular y GPS" data-en="Landings: vehicle insurance and GPS"></span></div>
+              <div class="row"><span class="dot ora"></span><span class="t" data-es="Backend en Python" data-en="Python backend"></span></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Rangerr -->
+        <article class="card proj rev g-pink">
+          <div class="proj-copy">
+            <span class="proj-kind t" data-es="Marca fitness · Completado" data-en="Fitness brand · Completed"></span>
+            <h3>Rangerr Aesthetic</h3>
+            <p class="t"
+               data-es="Landing de alto impacto visual para coaching personal, con estética oscura estilo Raw Nutrition, video hero y feed oficial de Instagram integrado."
+               data-en="High-impact landing page for personal coaching with a dark Raw Nutrition aesthetic, a hero video and an official Instagram feed."></p>
+            <div class="chips">
+              <span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span>
+              <span class="chip">Vite</span><span class="chip">Elfsight</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-secondary" href="https://jcrangerr.netlify.app/" target="_blank" rel="noopener"><span class="t" data-es="Ver sitio en vivo" data-en="Visit live site"></span></a>
+            </div>
+          </div>
+          <div class="frame" aria-hidden="true">
+            <div class="frame-bar"><div class="frame-dots"><i></i><i></i><i></i></div><div class="frame-url">jcrangerr.netlify.app</div></div>
+            <div class="frame-body">
+              <div class="row"><span class="dot"></span><span class="t" data-es="Video hero de fondo" data-en="Background hero video"></span></div>
+              <div class="row"><span class="dot cer"></span><span class="t" data-es="Feed de Instagram con Elfsight" data-en="Instagram feed via Elfsight"></span></div>
+              <div class="row"><span class="dot ora"></span><span>HTML · CSS · JavaScript · Vite</span></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- FitTrack -->
+        <article class="card proj g-purple">
+          <div class="proj-copy">
+            <span class="proj-kind t" data-es="App móvil · Completado" data-en="Mobile app · Completed"></span>
+            <h3>FitTrack</h3>
+            <p class="t"
+               data-es="App móvil de salud y rendimiento atlético. Calcula tu gasto energético diario total (TDEE), calorías activas y macronutrientes, con una interfaz inspirada en Strava."
+               data-en="Mobile health and athletic-performance app. It tracks Total Daily Energy Expenditure (TDEE), active calories and macronutrients, with a Strava-inspired interface."></p>
+            <div class="chips">
+              <span class="chip">React Native</span><span class="chip">UI/UX</span><span class="chip">TDEE</span><span class="chip t" data-es="Macronutrientes" data-en="Macronutrients"></span>
+            </div>
+          </div>
+          <div class="phone" aria-hidden="true">
+            <div class="phone-title">FitTrack</div>
+            <div class="metric">
+              <div class="metric-top"><span>TDEE</span><span class="t" data-es="Gasto diario" data-en="Daily burn"></span></div>
+              <div class="bar"><i style="width:72%; background: var(--color-spring-green)"></i></div>
+            </div>
+            <div class="metric">
+              <div class="metric-top"><span class="t" data-es="Calorías activas" data-en="Active calories"></span><span>Strava-style</span></div>
+              <div class="bar"><i style="width:48%; background: var(--color-ember-orange)"></i></div>
+            </div>
+            <div class="metric">
+              <div class="metric-top"><span class="t" data-es="Macros" data-en="Macros"></span><span>P · C · G</span></div>
+              <div class="bar"><i style="width:60%; background: var(--color-vivid-cerulean)"></i></div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICACIONES -->
+  <section id="certs" class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">06 / FORMACIÓN CONTINUA</p><h2 class="t" data-es="Certificaciones" data-en="Certifications"></h2>
+      </div>
+
+      <article class="card scrum g-teal">
+        <div class="scrum-badge" aria-hidden="true"><div><b>SFC™</b><small>Scrum Fundamentals<br>Certified</small></div></div>
+        <div>
+          <h3>Scrum Fundamentals Certified</h3>
+          <p class="t"
+             data-es="Examen de certificación aprobado en SCRUMstudy. Designación oficial SFC™ que respalda mi trabajo con roles, eventos y artefactos de Scrum."
+             data-en="Certification exam passed with SCRUMstudy. Official SFC™ designation covering Scrum roles, events and artifacts."></p>
+          <div class="chips">
+            <span class="chip">SCRUMstudy</span>
+            <span class="chip t" data-es="Otorgado: 19 sep 2026" data-en="Granted: Sep 19, 2026"></span>
+            <span class="chip">ID 1192271</span>
+          </div>
+        </div>
+      </article>
+
+      <div class="cert-grid">
+        <div class="cert g-slate"><div class="cert-year">2026</div><h3>AWS CDK — Getting Started</h3><p>AWS Training</p></div>
+        <div class="cert g-slate"><div class="cert-year">2025</div><h3>Relational Database</h3><p>freeCodeCamp · 300 hrs</p></div>
+        <div class="cert g-slate"><div class="cert-year">2025</div><h3>Responsive Web Design</h3><p>freeCodeCamp · 300 hrs</p></div>
+        <div class="cert g-slate"><div class="cert-year">2025</div><h3>JavaScript Algorithms &amp; Data Structures</h3><p>freeCodeCamp</p></div>
+        <div class="cert g-slate"><div class="cert-year">Python</div><h3>Python</h3><p>freeCodeCamp</p></div>
+        <div class="cert g-slate"><div class="cert-year">Cisco</div><h3>Basic Networking</h3><p>Cisco</p></div>
+        <div class="cert g-slate"><div class="cert-year">Talento Digital</div><h3 class="t" data-es="Ciberseguridad" data-en="Cybersecurity"></h3><p>Talento Digital</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCACIÓN -->
+  <section id="education" class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">07 / EDUCACIÓN</p><h2 class="t" data-es="Educación" data-en="Education"></h2>
+      </div>
+      <div class="edu-grid">
+        <article class="card edu g-navy">
+          <div class="edu-year t" data-es="Graduada · Nov 2025" data-en="Graduated · Nov 2025"></div>
+          <h3 class="t" data-es="Ingeniería de Sistemas y Computación" data-en="B.S. Systems &amp; Computing Engineering"></h3>
+          <div class="school">Universidad Dominicana O&amp;M</div>
+          <p class="d t"
+             data-es="Desarrollo de software, arquitectura de sistemas, bases de datos relacionales y redes informáticas."
+             data-en="Software development, systems architecture, relational databases and computer networks."></p>
+        </article>
+        <article class="card edu g-orange">
+          <div class="edu-year">2016 – 2020</div>
+          <h3 class="t" data-es="Bachiller Técnico en Desarrollo de Software y Administración TI" data-en="Technical Bachelor in Software Development &amp; IT Administration"></h3>
+          <div class="school">Politécnico Salesiano Arquídes Calderón</div>
+          <p class="d t"
+             data-es="Base técnica en lógica de programación, administración de sistemas informáticos y fundamentos de desarrollo web."
+             data-en="Technical foundation in programming logic, computer systems administration and web development fundamentals."></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contact" class="block">
+    <div class="wrap">
+      <div class="card g-purple">
+        <div class="contact">
+          <div>
+            <h2 class="t" data-es="Tu próxima realidad empieza con una idea." data-en="Your next reality starts with an idea."></h2>
+            <p class="lead t"
+               data-es="Disponible para puestos Full Stack a tiempo completo, proyectos freelance o contratos remotos."
+               data-en="Available for full-time Full Stack roles, freelance projects or remote contracts."></p>
+            <div class="contact-links">
+              <a class="c-row" href="mailto:jeniferreyesperez@gmail.com"><span>Email</span><span>jeniferreyesperez@gmail.com</span></a>
+              <a class="c-row" href="tel:+18292714334"><span class="t" data-es="Teléfono" data-en="Phone"></span><span>829-271-4334</span></a>
+              <a class="c-row" href="https://linkedin.com/in/jenifer-reyes-perez-9613a1399" target="_blank" rel="noopener"><span>LinkedIn</span><span>in/jenifer-reyes-perez</span></a>
+            </div>
+          </div>
+          <div class="wa">
+            <h3 class="t" data-es="Mensaje directo por WhatsApp" data-en="Direct WhatsApp message"></h3>
+            <p class="t"
+               data-es="Si prefieres una respuesta rápida sobre una vacante o proyecto, escríbeme directamente."
+               data-en="If you'd like a quick reply about a role or project, message me directly."></p>
+            <a class="btn btn-wa" href="https://wa.me/18292714334?text=Hola%20Jenifer%2C%20vi%20tu%20portafolio%20y%20me%20interesa%20contactarte." target="_blank" rel="noopener">
+              <span class="t" data-es="Abrir WhatsApp · 829-271-4334" data-en="Open WhatsApp · 829-271-4334"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
 
   <!-- FOOTER -->
   <footer>
-    <p>© 2026 JENIFER REYES PÉREZ</p>
-    <div class="footer-links">
-      <a href="https://linkedin.com/in/jenifer-reyes-perez-9613a1399" target="_blank">LinkedIn</a>
-      <a href="https://wolffitnessmarket.com" target="_blank">WFM</a>
-      <a href="https://www.jmodepem.com" target="_blank">JM ODEPEM</a>
-      <a href="https://jcrangerr.netlify.app/" target="_blank">RANGERR</a>
-      <a href="mailto:jeniferreyesperez@gmail.com">Email</a>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <div class="foot-brand">JENIX<span>.DEV</span></div><p>Jenifer Reyes Pérez</p>
+          <p class="foot-note t" data-es="Ingeniera de Sistemas y desarrolladora Full Stack. Santiago de los Caballeros, República Dominicana." data-en="Systems Engineer and Full Stack developer. Santiago de los Caballeros, Dominican Republic."></p>
+        </div>
+        <div>
+          <h4 class="t" data-es="Navegar" data-en="Navigate"></h4>
+          <ul>
+            <li><a href="#about"><span class="t" data-es="Sobre mí" data-en="About"></span></a></li>
+            <li><a href="#stack">Stack</a></li>
+            <li><a href="#experience"><span class="t" data-es="Experiencia" data-en="Experience"></span></a></li>
+            <li><a href="#certs"><span class="t" data-es="Certificaciones" data-en="Certifications"></span></a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="t" data-es="Proyectos" data-en="Projects"></h4>
+          <ul>
+            <li><a href="https://wolffitnessmarket.com" target="_blank" rel="noopener">Wolfs Fitness Market</a></li>
+            <li><a href="https://www.jmodepem.com" target="_blank" rel="noopener">JM ODEPEM</a></li>
+            <li><a href="https://jcrangerr.netlify.app/" target="_blank" rel="noopener">Rangerr Aesthetic</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="t" data-es="Contacto" data-en="Contact"></h4>
+          <ul>
+            <li><a href="mailto:jeniferreyesperez@gmail.com">Email</a></li>
+            <li><a href="https://linkedin.com/in/jenifer-reyes-perez-9613a1399" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://wa.me/18292714334" target="_blank" rel="noopener">WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="foot-bottom">© 2026 Jenifer Reyes Pérez</p>
     </div>
   </footer>
 
+  <a class="whatsapp-float" href="https://wa.me/18292714334?text=Hola%20Jenifer%2C%20vi%20tu%20portafolio%20y%20quiero%20hablar%20de%20un%20proyecto." target="_blank" rel="noopener" aria-label="WhatsApp: 829-271-4334"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.3-4.8A8.5 8.5 0 1 1 20.5 11.6Z"/><path d="M8 7.4c.6-.5 1.2 1.7 1.3 2s-.6.8-.6 1.1c.6 1.3 1.6 2.3 3 2.9.4.1.9-.8 1.2-.8s2.2.9 2.2 1.3c0 1-1 1.6-1.9 1.6-3.6-.2-6.5-3.1-6.6-6.1 0-.9.5-1.8 1.4-2Z"/></svg><span>WhatsApp</span></a>
   <script>
-    // Cursor
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cursor.style.left = mx - 4 + 'px'; cursor.style.top = my - 4 + 'px';
-    });
-    function animRing() {
-      rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
-      ring.style.left = rx - 16 + 'px'; ring.style.top = ry - 16 + 'px';
-      requestAnimationFrame(animRing);
-    }
-    animRing();
+    var titles = {
+      es: 'Jenifer Reyes Pérez — Ingeniera de Sistemas y Full Stack',
+      en: 'Jenifer Reyes Pérez — Systems Engineer & Full Stack Developer'
+    };
 
-    // Hamburger
-    const hb = document.getElementById('hamburger');
-    const nl = document.getElementById('navLinks');
-    hb.addEventListener('click', () => nl.classList.toggle('open'));
-    nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nl.classList.remove('open')));
-
-    // Scroll fade
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
-
-    // Lang switch engine
     function setLang(l) {
-      document.getElementById('btnEs').classList.toggle('active', l === 'es');
-      document.getElementById('btnEn').classList.toggle('active', l === 'en');
-      
-      document.querySelectorAll('.t').forEach(el => {
-        const val = el.getAttribute('data-' + l);
-        if (val) el.innerHTML = val;
+      document.documentElement.lang = l;
+      document.title = titles[l];
+      document.getElementById('btnEs').setAttribute('aria-pressed', String(l === 'es'));
+      document.getElementById('btnEn').setAttribute('aria-pressed', String(l === 'en'));
+      document.querySelectorAll('.t').forEach(function (el) {
+        var val = el.getAttribute('data-' + l);
+        if (val !== null) el.innerHTML = val;
       });
-      localStorage.setItem('preferredLang', l);
+      try { localStorage.setItem('preferredLang', l); } catch (e) {}
     }
 
-    // Persistent Initialization
-    document.addEventListener('DOMContentLoaded', () => {
-      const savedLang = localStorage.getItem('preferredLang') || 'en';
-      setLang(savedLang);
-    });
+    (function init() {
+      var saved = 'es';
+      try { saved = localStorage.getItem('preferredLang') || 'es'; } catch (e) {}
+      setLang(saved === 'en' ? 'en' : 'es');
+    })();
   </script>
 </body>
 </html>
